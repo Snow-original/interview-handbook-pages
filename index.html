@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>面试突击手册 v3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#F0F4FF;color:#1E293B;font-size:14px}
+.hdr{background:linear-gradient(135deg,#0F172A 0%,#1D4ED8 60%,#7C3AED 100%);color:#fff;padding:28px 36px 20px}
+.hdr h1{font-size:22px;font-weight:700;margin-bottom:5px}
+.hdr p{font-size:12.5px;opacity:.8;margin-bottom:10px}
+.htags{display:flex;gap:7px;flex-wrap:wrap}
+.htag{background:rgba(255,255,255,.15);border-radius:20px;padding:2px 10px;font-size:11px}
+.insight-bar{background:#0F172A;padding:14px 36px;border-bottom:1px solid #1E3A5F}
+.insight-title{color:#93C5FD;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.insight-card{background:#1E293B;border-radius:8px;padding:10px 14px;border-left:3px solid #3B82F6}
+.insight-card.red{border-left-color:#EF4444}
+.insight-card.green{border-left-color:#10B981}
+.ic-q{color:#93C5FD;font-size:11px;font-weight:600;margin-bottom:4px}
+.ic-a{color:#CBD5E1;font-size:11px;line-height:1.5}
+.feedback-bar{background:#1C1917;border-bottom:2px solid #F59E0B;padding:10px 36px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.fb-title{font-size:11.5px;font-weight:700;color:#FCD34D;white-space:nowrap}
+.fb-item{background:#292524;color:#FCD34D;font-size:10.5px;padding:2px 9px;border-radius:10px;border:1px solid #78350F}
+.fb-new{background:#064E3B;color:#6EE7B7;font-size:10.5px;padding:2px 9px;border-radius:10px;border:1px solid #10B981}
+.layout{display:flex;min-height:calc(100vh - 200px)}
+.sidebar{width:212px;min-width:212px;background:#0F172A;padding:14px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-title{color:#475569;font-size:9.5px;font-weight:700;padding:0 16px 6px;letter-spacing:1px;text-transform:uppercase}
+.sb-sep{height:1px;background:#1E293B;margin:6px 0}
+.sb-new{color:#34D399;font-size:8px;font-weight:700;margin-left:3px}
+.nav-item{display:block;padding:7px 16px;color:#94A3B8;font-size:12px;cursor:pointer;border-left:3px solid transparent;transition:all .15s;text-decoration:none}
+.nav-item:hover,.nav-item.active{background:#1E293B;color:#fff;border-left-color:#6366F1}
+.nav-item.hot{border-left-color:#EF4444 !important;color:#FCA5A5}
+.nav-item.hot:hover,.nav-item.hot.active{background:#1E293B;color:#FCA5A5}
+.nav-num{display:inline-block;background:#1E293B;color:#475569;border-radius:3px;font-size:9.5px;padding:1px 4px;margin-right:4px}
+.content{flex:1;padding:22px 30px;overflow-y:auto}
+.section{margin-bottom:32px}
+.sec-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #E2E8F0}
+.sec-icon{font-size:19px}
+.sec-title{font-size:17px;font-weight:700;color:#1E293B}
+.badge{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600}
+.badge-hot{background:#FEE2E2;color:#991B1B}
+.badge-new{background:#D1FAE5;color:#065F46}
+.badge-jd{background:#EDE9FE;color:#5B21B6}
+.qa-card{background:#fff;border-radius:9px;margin-bottom:9px;border:1px solid #E2E8F0;overflow:hidden}
+.qa-card.hot{border-color:#FCA5A5;box-shadow:0 0 0 1px #FEE2E2}
+.qa-card.newc{border-color:#6EE7B7}
+.qa-q{padding:11px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:9px;transition:background .15s;user-select:none}
+.qa-card.hot .qa-q{background:#FFF7F7}
+.qa-card.newc .qa-q{background:#F0FDF4}
+.qa-q:not(.hot-q):hover{background:#F8FAFF}
+.ql{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:4px;min-width:20px;text-align:center;margin-top:1px;flex-shrink:0;color:#fff}
+.ql.blue{background:#1D4ED8}
+.ql.red{background:#DC2626}
+.ql.green{background:#059669}
+.ql.purple{background:#7C3AED}
+.qt{font-size:13px;font-weight:600;color:#1E293B;flex:1;line-height:1.45}
+.qa{color:#94A3B8;font-size:11px;margin-top:2px;transition:transform .2s;flex-shrink:0}
+.qa-body{padding:0 14px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .2s}
+.qa-body.open{max-height:3000px;padding:4px 14px 14px}
+.qa-q.open .qa{transform:rotate(90deg)}
+.ac{font-size:12.5px;line-height:1.8;color:#334155}
+.ac strong{color:#1D4ED8}
+.ac code{background:#F1F5FF;color:#7C3AED;padding:1px 5px;border-radius:3px;font-family:monospace;font-size:11.5px}
+.ac ul,.ac ol{padding-left:16px;margin:5px 0}
+.ac li{margin-bottom:3px}
+.ac .hi{background:#FFFBEB;border-left:3px solid #F59E0B;padding:6px 10px;border-radius:0 5px 5px 0;margin:7px 0;font-size:12px}
+.ac .tip{background:#F0FDF4;border-left:3px solid #22C55E;padding:6px 10px;border-radius:0 5px 5px 0;margin:7px 0;font-size:12px}
+.ac .dev{background:#EDE9FE;border-left:3px solid #7C3AED;padding:6px 10px;border-radius:0 5px 5px 0;margin:7px 0;font-size:12px}
+.ac .danger{background:#FEF2F2;border-left:3px solid #EF4444;padding:6px 10px;border-radius:0 5px 5px 0;margin:7px 0;font-size:12px}
+.ac table{width:100%;border-collapse:collapse;margin:7px 0;font-size:12px}
+.ac th{background:#EFF6FF;color:#1D4ED8;padding:5px 8px;text-align:left;font-weight:600}
+.ac td{padding:5px 8px;border-bottom:1px solid #F1F5F9;vertical-align:top}
+.ac tr:last-child td{border-bottom:none}
+.diff{font-size:9.5px;padding:2px 5px;border-radius:6px;margin-left:5px;font-weight:600}
+.de{background:#DCFCE7;color:#16A34A}
+.dm{background:#FEF3C7;color:#D97706}
+.dh{background:#FEE2E2;color:#DC2626}
+.ds{background:#EDE9FE;color:#7C3AED}
+.dn{background:#D1FAE5;color:#065F46}
+.cb{background:#0F172A;color:#E2E8F0;padding:9px 13px;border-radius:6px;font-family:monospace;font-size:11.5px;margin:7px 0;overflow-x:auto;white-space:pre}
+.cb .kw{color:#93C5FD}
+.cb .st{color:#86EFAC}
+.cb .cm{color:#64748B}
+.cb .fn{color:#FDE68A}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.cb2{background:#F8FAFF;border:1px solid #DBEAFE;border-radius:7px;padding:9px 12px}
+.cb2.bad{background:#FFF7F7;border-color:#FCA5A5}
+.cb2 h4{font-size:11.5px;font-weight:700;margin-bottom:5px;color:#1D4ED8}
+.cb2.bad h4{color:#DC2626}
+.cb2 p{font-size:11.5px;color:#475569;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.sc{background:#fff;border-radius:7px;padding:8px 12px;border:1px solid #E2E8F0;text-align:center}
+.sn{font-size:20px;font-weight:700;color:#1D4ED8}
+.sl{font-size:10px;color:#64748B;margin-top:1px}
+.pb{height:3px;background:#E2E8F0;border-radius:2px;margin-bottom:18px}
+.pf{height:100%;background:linear-gradient(90deg,#1D4ED8,#7C3AED);border-radius:2px;transition:width .3s}
+.rl{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;padding:8px 12px;margin-bottom:10px;font-size:12px;color:#1D4ED8}
+.rl strong{display:block;margin-bottom:2px}
+@media(max-width:768px){.sidebar{display:none}.content{padding:12px}.insight-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}.cg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>🧠 面试突击手册 v3 · 生产级 Agent 开发者</h1>
+  <p>基于两轮面试反馈深度重构 · Token爆炸 + RAG关键词失配 + 开发者思维 · 共 65+ 道 Q&A</p>
+  <div class="htags">
+    <span class="htag">★ Token爆炸根治</span><span class="htag">★ RAG关键词失配</span>
+    <span class="htag">★ KV Cache / 语义缓存</span><span class="htag">★ 混合检索调优</span>
+    <span class="htag">★ Agent记忆压缩</span><span class="htag">★ 向量化方案选型</span>
+    <span class="htag">★ 开发者视角重构</span>
+  </div>
+</div>
+
+<div class="insight-bar">
+  <div class="insight-title">🔍 HR 视角反推 · 他在考察什么？</div>
+  <div class="insight-grid">
+    <div class="insight-card">
+      <div class="ic-q">问：Token 爆炸怎么解决？</div>
+      <div class="ic-a">说明公司在做生产级 Agent，面临真实 Token 成本 / 上下文溢出问题。考察你能否在成本、速度、质量三角中做工程决策。</div>
+    </div>
+    <div class="insight-card red">
+      <div class="ic-q">问：RAG 关键词没匹配上在哪？</div>
+      <div class="ic-a">说明他们的 RAG 系统出现过专有名词/术语召回失败的 bug。考察你能否系统性定位：是 Tokenization 问题、OOV、还是检索策略问题。</div>
+    </div>
+    <div class="insight-card green">
+      <div class="ic-q">整体问法模式</div>
+      <div class="ic-a">所有问题都是"出了问题怎么排查"而非"原理是什么"——他们要的是能独立上手调试生产系统的工程师，而不是 API 调用者。</div>
+    </div>
+  </div>
+</div>
+
+<div class="feedback-bar">
+  <span class="fb-title">📋 全部面试反馈 →</span>
+  <span class="fb-item">Token爆炸解决方案</span>
+  <span class="fb-item">RAG关键词失配定位</span>
+  <span class="fb-item">记忆与压缩</span>
+  <span class="fb-item">RAG召回优化</span>
+  <span class="fb-item">向量化方案对比</span>
+  <span class="fb-item">Token vs 关键词</span>
+  <span class="fb-item">开发者视角</span>
+  <span class="fb-new">✅ v3 全部覆盖</span>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="sb-title">本次新增（追问）</div>
+  <a class="nav-item hot active" href="#hot1" onclick="sa(this)"><span class="nav-num">🔥</span>Token爆炸根治方案<span class="sb-new">HOT</span></a>
+  <a class="nav-item hot" href="#hot2" onclick="sa(this)"><span class="nav-num">🔥</span>RAG关键词失配<span class="sb-new">HOT</span></a>
+  <div class="sb-sep"></div>
+  <div class="sb-title">v2 核心模块</div>
+  <a class="nav-item" href="#s1" onclick="sa(this)"><span class="nav-num">01</span>Token与关键词</a>
+  <a class="nav-item" href="#s2" onclick="sa(this)"><span class="nav-num">02</span>Agent记忆压缩</a>
+  <a class="nav-item" href="#s3" onclick="sa(this)"><span class="nav-num">03</span>RAG召回全链路</a>
+  <a class="nav-item" href="#s4" onclick="sa(this)"><span class="nav-num">04</span>向量化方案选型</a>
+  <a class="nav-item" href="#s5" onclick="sa(this)"><span class="nav-num">05</span>文本处理工程</a>
+  <a class="nav-item" href="#s6" onclick="sa(this)"><span class="nav-num">06</span>开发者视角重构</a>
+  <div class="sb-sep"></div>
+  <div class="sb-title">基础知识</div>
+  <a class="nav-item" href="#b1" onclick="sa(this)"><span class="nav-num">B1</span>AI大模型原理</a>
+  <a class="nav-item" href="#b2" onclick="sa(this)"><span class="nav-num">B2</span>提示词工程</a>
+  <a class="nav-item" href="#b3" onclick="sa(this)"><span class="nav-num">B3</span>SQL & 数据库</a>
+  <a class="nav-item" href="#b4" onclick="sa(this)"><span class="nav-num">B4</span>机器学习</a>
+  <a class="nav-item" href="#b5" onclick="sa(this)"><span class="nav-num">B5</span>NLP基础</a>
+  <a class="nav-item" href="#b6" onclick="sa(this)"><span class="nav-num">B6</span>数据湖治理</a>
+  <div class="sb-sep"></div>
+  <div class="sb-title">实战模板</div>
+  <a class="nav-item" href="#tmpl" onclick="sa(this)"><span class="nav-num">★</span>简历挂钩回答</a>
+</nav>
+
+<div class="content">
+
+<div class="stats">
+  <div class="sc"><div class="sn" id="tq">0</div><div class="sl">总题数</div></div>
+  <div class="sc"><div class="sn" id="oq" style="color:#059669">0</div><div class="sl">已读</div></div>
+  <div class="sc"><div class="sn" style="color:#DC2626">+8</div><div class="sl">v3新增</div></div>
+  <div class="sc"><div class="sn">2</div><div class="sl">HOT模块</div></div>
+  <div class="sc"><div class="sn">9</div><div class="sl">总模块</div></div>
+</div>
+<div class="pb"><div class="pf" id="prog" style="width:0%"></div></div>
+
+<!-- ========== HOT 1: TOKEN EXPLOSION ========== -->
+<div class="section" id="hot1">
+<div class="sec-hdr">
+  <span class="sec-icon">💥</span>
+  <span class="sec-title">Token 爆炸：根因分析与工程解法</span>
+  <span class="badge badge-hot">🔥 面试追问</span>
+</div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql red">H1</span>
+  <span class="qt">Token 爆炸的根因是什么？它会在 Agent 系统的哪些位置发生？<span class="diff dh">必答</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+面试官问这个，说明他们的系统真实遇到过 Token 超限或成本失控的问题。要系统性拆解根因，不能只说"做压缩"。
+
+<strong>Token 爆炸的四个来源（按严重程度排序）：</strong>
+
+<table>
+<tr><th>来源</th><th>为什么会爆炸</th><th>量级举例</th></tr>
+<tr><td><strong>① 历史对话累积</strong></td><td>每轮对话把全部历史 messages 传入，随轮数线性增长</td><td>50轮对话 × 200 Token/轮 = 10,000 Token</td></tr>
+<tr><td><strong>② RAG 注入过多</strong></td><td>Top-K 设太大，每个 chunk 又太长，注入内容失控</td><td>Top-10 × 500 Token/块 = 5,000 Token 仅检索结果</td></tr>
+<tr><td><strong>③ System Prompt 膨胀</strong></td><td>随版本迭代不断追加规则，从未精简</td><td>从 200 Token 膨胀到 3,000 Token</td></tr>
+<tr><td><strong>④ 长文档直接注入</strong></td><td>把完整 PDF/报告塞进 Prompt 而不是先摘要</td><td>一份报告可能 50,000+ Token</td></tr>
+</table>
+
+<strong>为什么这是危险的：</strong>
+<ul>
+<li>超过上下文窗口 → 请求报错，系统崩溃</li>
+<li>接近窗口上限 → 注意力稀释，模型"忘记"早期重要信息（Lost in the Middle 问题）</li>
+<li>Token 成本线性增长 → GPT-4o 每百万 Token $5，10 万次调用 × 5000 Token = $2500</li>
+</ul>
+
+<div class="hi">🔑 面试答题结构：先说四个来源 → 再说每个来源的解法 → 最后说架构级的预防机制。体现你是在系统性解决问题，不是头痛医头。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql red">H2</span>
+  <span class="qt">Token 爆炸的完整解法体系：从应急到根治<span class="diff dh">核心</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<strong>第一层：Token 预算管理（预防）</strong>
+<div class="cb"><span class="cm"># 每次请求前计算预算，超出时按优先级裁剪</span>
+<span class="kw">def</span> <span class="fn">build_prompt_within_budget</span>(system, history, rag_docs, query, budget=8000):
+    reserved_output = 1000          <span class="cm"># 为输出预留</span>
+    available = budget - reserved_output
+    
+    <span class="cm"># 优先级：system > query > rag_docs > history（最低）</span>
+    used = <span class="fn">count_tokens</span>(system) + <span class="fn">count_tokens</span>(query)
+    
+    <span class="cm"># RAG 文档按 Rerank 分数排序，从高到低填充</span>
+    injected_docs = []
+    <span class="kw">for</span> doc <span class="kw">in</span> sorted_by_score(rag_docs):
+        doc_tokens = <span class="fn">count_tokens</span>(doc)
+        <span class="kw">if</span> used + doc_tokens < available * 0.6:  <span class="cm"># RAG最多占60%</span>
+            injected_docs.<span class="fn">append</span>(doc)
+            used += doc_tokens
+    
+    <span class="cm"># 剩余预算给历史对话（滑动窗口）</span>
+    trimmed_history = <span class="fn">trim_history</span>(history, available - used)
+    <span class="kw">return</span> system, trimmed_history, injected_docs, query</div>
+
+<strong>第二层：历史对话压缩（最常考）</strong>
+
+<table>
+<tr><th>方案</th><th>原理</th><th>适用</th><th>LangChain 实现</th></tr>
+<tr><td>滑动窗口</td><td>只保留最近 N 轮</td><td>简单闲聊</td><td><code>ConversationBufferWindowMemory(k=5)</code></td></tr>
+<tr><td>摘要压缩</td><td>超阈值时 LLM 摘要旧轮次</td><td>任务型对话</td><td><code>ConversationSummaryBufferMemory</code></td></tr>
+<tr><td>关键信息提取</td><td>只保留实体/事实，丢弃闲聊</td><td>长会话助手</td><td>自定义 Memory 类</td></tr>
+</table>
+
+<strong>第三层：KV Cache / Prefix Cache（架构级）</strong>
+<div class="cb"><span class="cm"># Prefix Cache：固定前缀只计算一次，后续复用</span>
+<span class="cm"># System Prompt（1000 Token）在多次对话中被缓存</span>
+<span class="cm"># 只有新增内容（用户输入 + 历史变化部分）需要重新计算</span>
+<span class="cm"># OpenAI API 的 Prompt Caching：相同前缀 Token 打折 50%</span>
+
+<span class="cm"># 设计建议：把 System Prompt 放在 messages 最前面且不变</span>
+<span class="cm"># 这样 prefix cache 命中率最高</span>
+messages = [
+    {<span class="st">"role"</span>:<span class="st">"system"</span>, <span class="st">"content"</span>: STATIC_SYSTEM_PROMPT},  <span class="cm"># 固定，被缓存</span>
+    *history,                                              <span class="cm"># 历史对话（变化部分）</span>
+    {<span class="st">"role"</span>:<span class="st">"user"</span>, <span class="st">"content"</span>: user_input}               <span class="cm"># 当前输入</span>
+]</div>
+
+<strong>第四层：语义缓存（Semantic Cache）</strong>
+<div class="cb"><span class="cm"># 语义缓存：含义相同的问题直接返回缓存，不走 LLM</span>
+<span class="cm"># "今天天气怎么样" 和 "现在天气如何" → 向量相似度>0.95 → 命中缓存</span>
+
+<span class="kw">from</span> langchain.cache <span class="kw">import</span> InMemorySemanticCache
+
+cache = <span class="fn">InMemorySemanticCache</span>(embedding=embedder, score_threshold=0.95)
+<span class="cm"># 生产环境用 RedisSemanticCache，支持持久化和分布式</span></div>
+
+<strong>第五层：模型路由（终极省Token方案）</strong>
+<div class="cb"><span class="cm"># 用小模型判断复杂度，简单问题不走大模型</span>
+<span class="kw">def</span> <span class="fn">smart_route</span>(query):
+    complexity = classifier.<span class="fn">predict</span>(query)  <span class="cm"># 本地小分类模型</span>
+    <span class="kw">if</span> complexity == <span class="st">"simple"</span>:
+        <span class="kw">return</span> <span class="fn">call_gpt35</span>(query)    <span class="cm"># 1/10 成本</span>
+    <span class="kw">elif</span> complexity == <span class="st">"medium"</span>:
+        <span class="kw">return</span> <span class="fn">call_gpt4o_mini</span>(query) <span class="cm"># 1/4 成本</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="fn">call_gpt4o</span>(query)     <span class="cm"># 全价，只用于复杂推理</span></div>
+
+<div class="tip">💡 LLMLingua：微软出品的 Prompt 压缩库，用小模型给每个 Token 打重要性分数，删掉低分 Token，压缩到原来 20-30%，保留关键语义。适合长文档注入场景。</div>
+<div class="dev">🛠 工程实践优先级：Token预算管理（必做）→ 历史摘要压缩（必做）→ Prefix Cache（低成本收益高）→ 语义缓存（高命中场景）→ 模型路由（精细化运营）→ LLMLingua（最后手段）</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql red">H3</span>
+  <span class="qt">Lost in the Middle 问题是什么？和 Token 爆炸有什么关系？<span class="diff dm">重点</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<strong>Lost in the Middle</strong>：研究发现，LLM 对 Prompt 首尾的内容注意力强，对中间的内容注意力弱——即使信息在 Context 里，也可能"视而不见"。
+
+<strong>和 Token 爆炸的关系：</strong>注入的 RAG 文档越多，真正相关的文档越容易被淹没在中间位置，召回到了但没被利用。
+
+<strong>应对策略：</strong>
+<ul>
+<li><strong>相关内容放首尾</strong>：最相关的 chunk 放在注入内容的最前面或最后面</li>
+<li><strong>控制注入数量</strong>：宁可 Top-3 精准，也不要 Top-10 含噪</li>
+<li><strong>来源标注</strong>：给每个 chunk 加 <code>[来源1]</code> 标签，让模型更容易定位</li>
+<li><strong>Long Context 模型</strong>：Claude 3.5 / Gemini 1.5 Pro 在长上下文上表现更好</li>
+</ul>
+
+<div class="code-block" style="background:#0F172A;color:#E2E8F0;padding:9px 13px;border-radius:6px;font-family:monospace;font-size:11.5px;margin:7px 0;overflow-x:auto;white-space:pre"><span style="color:#64748B"># 注入顺序优化：最相关的放最后（模型对末尾注意力最强）</span>
+reranked_docs = <span style="color:#93C5FD">sorted</span>(docs, key=<span style="color:#93C5FD">lambda</span> x: x.score)  <span style="color:#64748B"># 最相关的排最后</span>
+prompt = system + "\n\n" + "\n\n".join(reranked_docs) + "\n\n" + query</div>
+</div></div></div>
+</div>
+
+<!-- ========== HOT 2: RAG KEYWORD MISMATCH ========== -->
+<div class="section" id="hot2">
+<div class="sec-hdr">
+  <span class="sec-icon">🔎</span>
+  <span class="sec-title">RAG 关键词失配：定位与修复</span>
+  <span class="badge badge-hot">🔥 面试追问</span>
+</div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql red">H4</span>
+  <span class="qt">RAG 关键词没匹配上，问题可能出在哪里？完整的排查路径是什么？<span class="diff dh">必答</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+这道题的关键是：面试官说的"关键词"匹配失败，说明他们用了 BM25/关键词检索，而不只是向量检索。失败原因需要从四个层次排查：
+
+<strong>失配根因全景图：</strong>
+
+<table>
+<tr><th>层次</th><th>具体原因</th><th>例子</th><th>诊断方法</th></tr>
+<tr><td rowspan="3"><strong>① Tokenization 层</strong></td><td>BPE 把专有名词切碎</td><td>"PyTorch"→["Py","torch"]，BM25 索引里没有完整词</td><td>打印分词结果看是否切碎</td></tr>
+<tr><td>中英文混排切分异常</td><td>"GPT-4模型"→["GPT","-","4","模","型"]</td><td>检查 tokenizer 的语言设置</td></tr>
+<tr><td>数字/版本号切碎</td><td>"gpt-4o"→多个子词</td><td>打印 BM25 的倒排索引验证</td></tr>
+<tr><td rowspan="2"><strong>② 词汇表层（OOV）</strong></td><td>新词/缩写不在词汇表</td><td>"NIPT"、"MXene"、行业新术语</td><td>查词汇表是否包含该词</td></tr>
+<tr><td>同义词/近义词不匹配</td><td>用户说"心梗"，文档写"心肌梗塞"</td><td>人工比对用户 Query 和文档措辞</td></tr>
+<tr><td rowspan="2"><strong>③ 文档预处理层</strong></td><td>清洗时误删关键词</td><td>把"C++"里的"++"当特殊符号删掉</td><td>对比原文档和处理后文档</td></tr>
+<tr><td>停用词误删</td><td>把"C"（编程语言）当停用词删掉</td><td>检查停用词表是否误伤领域词</td></tr>
+<tr><td rowspan="2"><strong>④ 索引构建层</strong></td><td>BM25 参数不合适</td><td>k1/b 参数默认值对领域文档不适配</td><td>调整参数重建索引测试</td></tr>
+<tr><td>索引未包含所有字段</td><td>只索引了 title 没索引 content</td><td>检查索引字段覆盖</td></tr>
+</table>
+
+<strong>系统性排查流程（开发者思维）：</strong>
+<div class="code-block" style="background:#0F172A;color:#E2E8F0;padding:9px 13px;border-radius:6px;font-family:monospace;font-size:11.5px;margin:7px 0;overflow-x:auto;white-space:pre"><span style="color:#64748B"># Step 1：打印分词结果——最先做，最快定位</span>
+<span style="color:#93C5FD">from</span> rank_bm25 <span style="color:#93C5FD">import</span> BM25Okapi
+<span style="color:#93C5FD">import</span> jieba
+
+query = <span style="color:#86EFAC">"NIPT检测时点优化"</span>
+tokenized = <span style="color:#FDE68A">list</span>(jieba.<span style="color:#FDE68A">cut</span>(query))
+<span style="color:#FDE68A">print</span>(<span style="color:#86EFAC">"分词结果："</span>, tokenized)
+<span style="color:#64748B"># 如果输出 ['N', 'I', 'P', 'T', '检测', '时点', '优化']</span>
+<span style="color:#64748B"># "NIPT" 被拆成单字 → BM25 无法匹配完整缩写</span>
+
+<span style="color:#64748B"># Step 2：检查 BM25 倒排索引是否包含目标词</span>
+bm25 = BM25Okapi(tokenized_corpus)
+doc_scores = bm25.<span style="color:#FDE68A">get_scores</span>(tokenized)
+<span style="color:#64748B"># 如果目标文档 score=0，说明没有词重叠</span>
+
+<span style="color:#64748B"># Step 3：用精确词查看文档是否包含</span>
+<span style="color:#93C5FD">for</span> i, doc <span style="color:#93C5FD">in</span> <span style="color:#FDE68A">enumerate</span>(corpus):
+    <span style="color:#93C5FD">if</span> <span style="color:#86EFAC">"NIPT"</span> <span style="color:#93C5FD">in</span> doc:
+        <span style="color:#FDE68A">print</span>(<span style="color:#86EFAC">f"文档{i}包含NIPT，但BM25 score={doc_scores[i]}"</span>)</div>
+
+<div class="danger">❌ 最常见的错误：用户问 "PyTorch 模型训练" → jieba 分词把 "PyTorch" 切成 ["Py", "torch"] → BM25 在文档里找不到 "Py" 这个词（文档里是完整的 "PyTorch"）→ score=0 → 召回失败。文档明明包含答案，但关键词检索完全错过。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql red">H5</span>
+  <span class="qt">关键词失配的修复方案：从分词到检索策略的全链路优化<span class="diff dh">核心</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<strong>修复方案一：自定义词典解决 OOV 和切碎问题（最有效）</strong>
+<div class="code-block" style="background:#0F172A;color:#E2E8F0;padding:9px 13px;border-radius:6px;font-family:monospace;font-size:11.5px;margin:7px 0;overflow-x:auto;white-space:pre"><span style="color:#93C5FD">import</span> jieba
+
+<span style="color:#64748B"># 把领域专有词、缩写、英文术语加入自定义词典</span>
+jieba.<span style="color:#FDE68A">add_word</span>(<span style="color:#86EFAC">"NIPT"</span>, freq=1000)
+jieba.<span style="color:#FDE68A">add_word</span>(<span style="color:#86EFAC">"PyTorch"</span>, freq=1000)
+jieba.<span style="color:#FDE68A">add_word</span>(<span style="color:#86EFAC">"MXene"</span>, freq=1000)
+jieba.<span style="color:#FDE68A">add_word</span>(<span style="color:#86EFAC">"C++", freq=1000)
+
+# 或者批量加载领域词典文件
+jieba.load_userdict("domain_vocab.txt")
+
+# 验证分词结果
+print(list(jieba.cut("NIPT检测时点优化")))
+# 期望输出: ['NIPT', '检测', '时点', '优化']  ✅</span></div>
+
+<strong>修复方案二：同义词扩展（解决措辞不一致）</strong>
+<div class="code-block" style="background:#0F172A;color:#E2E8F0;padding:9px 13px;border-radius:6px;font-family:monospace;font-size:11.5px;margin:7px 0;overflow-x:auto;white-space:pre"><span style="color:#64748B"># 方法1：手工同义词表（领域可控）</span>
+synonyms = {
+    <span style="color:#86EFAC">"心梗"</span>: [<span style="color:#86EFAC">"心肌梗塞"</span>, <span style="color:#86EFAC">"心肌梗死"</span>, <span style="color:#86EFAC">"AMI"</span>],
+    <span style="color:#86EFAC">"无创产筛"</span>: [<span style="color:#86EFAC">"NIPT"</span>, <span style="color:#86EFAC">"无创产前筛查"</span>],
+}
+
+<span style="color:#64748B"># 方法2：用 LLM 动态扩展 Query（通用）</span>
+expand_prompt = <span style="color:#86EFAC">f"""
+对以下查询，列出3-5个同义表达（逗号分隔，只输出词，不解释）：
+查询：{query}
+"""</span>
+expanded_terms = llm.<span style="color:#FDE68A">invoke</span>(expand_prompt)
+full_query = query + <span style="color:#86EFAC">" "</span> + expanded_terms  <span style="color:#64748B"># 拼接后做BM25检索</span></div>
+
+<strong>修复方案三：停用词表精细化（避免误删领域词）</strong>
+<div class="code-block" style="background:#0F172A;color:#E2E8F0;padding:9px 13px;border-radius:6px;font-family:monospace;font-size:11.5px;margin:7px 0;overflow-x:auto;white-space:pre"><span style="color:#64748B"># 通用停用词表会误删领域关键词</span>
+<span style="color:#64748B"># 错误示例：把 "C"（编程语言）当停用词删除</span>
+<span style="color:#64748B"># 解决：维护一个"白名单"，领域词不做停用词过滤</span>
+domain_whitelist = {<span style="color:#86EFAC">"C"</span>, <span style="color:#86EFAC">"Go"</span>, <span style="color:#86EFAC">"is"</span>}  <span style="color:#64748B"># 这些词在代码/技术领域有意义</span>
+filtered = [w <span style="color:#93C5FD">for</span> w <span style="color:#93C5FD">in</span> tokens 
+            <span style="color:#93C5FD">if</span> w <span style="color:#93C5FD">not in</span> stopwords <span style="color:#93C5FD">or</span> w <span style="color:#93C5FD">in</span> domain_whitelist]</div>
+
+<strong>修复方案四：N-gram 索引（解决连续词组问题）</strong>
+<div class="code-block" style="background:#0F172A;color:#E2E8F0;padding:9px 13px;border-radius:6px;font-family:monospace;font-size:11.5px;margin:7px 0;overflow-x:auto;white-space:pre"><span style="color:#64748B"># Bigram 索引：除了单词，还索引相邻词对</span>
+<span style="color:#64748B"># "深度学习" → 索引 ["深度", "学习", "深度学习"]（bigram）</span>
+<span style="color:#64748B"># 查 "深度学习" 时 bigram 命中 → score 更高</span>
+
+<span style="color:#93C5FD">def</span> <span style="color:#FDE68A">add_ngrams</span>(tokens, n=2):
+    ngrams = [<span style="color:#86EFAC">""</span>.<span style="color:#FDE68A">join</span>(tokens[i:i+n]) <span style="color:#93C5FD">for</span> i <span style="color:#93C5FD">in</span> <span style="color:#FDE68A">range</span>(<span style="color:#FDE68A">len</span>(tokens)-n+1)]
+    <span style="color:#93C5FD">return</span> tokens + ngrams</div>
+
+<strong>终极方案：混合检索架构（根本解法）</strong>
+<table>
+<tr><th>检索类型</th><th>解决的问题</th><th>权重建议</th></tr>
+<tr><td>向量检索（BGE）</td><td>语义相似、同义词、措辞变化</td><td>0.6</td></tr>
+<tr><td>BM25（修复后）</td><td>精确关键词、专有名词、数字版本号</td><td>0.4</td></tr>
+<tr><td>RRF 融合</td><td>综合两路排名</td><td>—</td></tr>
+</table>
+
+<div class="dev">🛠 从开发者视角看：纯 BM25 的关键词失配问题，根本解法是"让它失配得更少"（自定义词典+同义词）+ "有向量检索兜底"（混合检索）。两手都要抓，不能只靠一种方式。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql red">H6</span>
+  <span class="qt">ElasticSearch 的 BM25 和自己实现的 BM25 在 RAG 里有什么区别？<span class="diff dm">延伸</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th></th><th>ES/OpenSearch BM25</th><th>rank_bm25（Python库）</th></tr>
+<tr><td>分词器</td><td>内置 IK Analyzer（中文），可配置领域词典，工程化完善</td><td>自己选分词器（jieba等），需要手动处理</td></tr>
+<tr><td>索引更新</td><td>实时增量更新，无需重建</td><td>修改文档需全量重建索引</td></tr>
+<tr><td>性能</td><td>亿级文档毫秒级响应</td><td>小规模（万级以内）可用</td></tr>
+<tr><td>功能</td><td>字段权重、模糊匹配、高亮</td><td>仅基础 BM25</td></tr>
+<tr><td>适用</td><td>生产环境</td><td>原型开发、学习</td></tr>
+</table>
+
+<div class="tip">💡 生产 RAG 系统主流方案：ES 做关键词检索 + Milvus/Qdrant 做向量检索 → 两路结果 RRF 融合 → Reranker 精排。ES 和向量库各司其职，不互相替代。</div>
+
+ES 针对关键词失配的特有功能：
+<ul>
+<li><code>fuzziness: "AUTO"</code>：允许 1-2 个字符的编辑距离，容忍拼写错误</li>
+<li><code>minimum_should_match: "70%"</code>：允许部分词未命中</li>
+<li>同义词词典：在 analyzer 层配置，全局生效</li>
+</ul>
+</div></div></div>
+</div>
+
+<!-- ========== S1: TOKEN vs KEYWORD ========== -->
+<div class="section" id="s1">
+<div class="sec-hdr"><span class="sec-icon">🔤</span><span class="sec-title">Token 与关键词的本质区别</span><span class="badge badge-new">v2 内容</span></div>
+
+<div class="qa-card newc">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql green">N1</span>
+  <span class="qt">Token 和关键词的本质区别？为什么面试官会把这两个放在一起问？<span class="diff dm">重点</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>维度</th><th>Token（词元）</th><th>关键词（Keyword）</th></tr>
+<tr><td>是什么</td><td>模型处理文本的最小计算单位，由分词器切分</td><td>人为定义的对文本有代表性的词语</td></tr>
+<tr><td>产生方式</td><td>BPE 算法自动切分，与语义无关</td><td>TF-IDF / TextRank 统计提取，有语义意义</td></tr>
+<tr><td>粒度</td><td>可以是字符、子词，"PyTorch"→3个Token</td><td>通常是完整的词或短语</td></tr>
+<tr><td>用途</td><td>LLM 输入输出计费单位</td><td>搜索引擎索引、BM25 检索</td></tr>
+</table>
+
+面试官把两个放一起问，是因为<strong>混淆这两个概念会直接导致 RAG 工程失败</strong>：
+<ul>
+<li>Token 切碎 → BM25 关键词索引缺失 → 检索失败（H4 的核心问题）</li>
+<li>Token 数 ≠ 字数 → 用字数控制 chunk size 导致 Token 超限（H1 的核心问题）</li>
+</ul>
+
+<div class="cb"><span class="cm"># 用 tiktoken 计算真实 Token 数（不能用 len(text)）</span>
+<span class="kw">import</span> tiktoken
+enc = tiktoken.<span class="fn">encoding_for_model</span>(<span class="st">"gpt-4o"</span>)
+text = <span class="st">"NIPT检测时点优化方案"</span>
+tokens = enc.<span class="fn">encode</span>(text)
+<span class="fn">print</span>(<span class="st">f"字数={len(text)}，Token数={len(tokens)}"</span>)
+<span class="cm"># 字数=10，Token数可能是12-15（中文通常1字1-2Token）</span></div>
+</div></div></div>
+</div>
+
+<!-- ========== S2: MEMORY ========== -->
+<div class="section" id="s2">
+<div class="sec-hdr"><span class="sec-icon">🧩</span><span class="sec-title">Agent 记忆机制与上下文压缩</span><span class="badge badge-new">v2 内容</span></div>
+
+<div class="qa-card newc">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql green">N2</span>
+  <span class="qt">Agent 四层记忆体系 + 压缩方案对比<span class="diff dh">核心</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>记忆类型</th><th>实现</th><th>生命周期</th><th>LangChain 类</th></tr>
+<tr><td>工作记忆（In-Context）</td><td>当前 messages 列表</td><td>单次对话</td><td><code>ConversationBufferMemory</code></td></tr>
+<tr><td>短期记忆</td><td>滑动窗口+摘要</td><td>会话级</td><td><code>ConversationSummaryBufferMemory</code></td></tr>
+<tr><td>长期记忆</td><td>向量库检索</td><td>持久化跨会话</td><td>自定义 + VectorStore</td></tr>
+<tr><td>参数记忆</td><td>模型权重</td><td>训练后固定</td><td>—</td></tr>
+</table>
+
+<strong>压缩方案选择：</strong>滑动窗口（简单闲聊）→ 摘要压缩（任务对话，超阈值LLM自动摘要）→ RAG式召回（长会话，向量库按需检索）→ LLMLingua Token压缩（长文档注入）。
+
+<div class="hi">🔑 面试答题结构：分层 → 压缩方案 → 读写时机（超阈值时写，每轮开始时按 Query 语义检索）。说出 ConversationSummaryBufferMemory 源码逻辑会很加分。</div>
+</div></div></div>
+</div>
+
+<!-- ========== S3: RAG FULL PIPELINE ========== -->
+<div class="section" id="s3">
+<div class="sec-hdr"><span class="sec-icon">⚙️</span><span class="sec-title">RAG 召回全链路优化</span><span class="badge badge-new">v2 内容</span></div>
+
+<div class="qa-card newc">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql green">N3</span>
+  <span class="qt">Bi-Encoder vs Cross-Encoder：本质区别与两阶段检索架构<span class="diff dh">核心</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<strong>Bi-Encoder（向量检索）</strong>：Query 和 Document 分别独立编码，然后算相似度。Document 可以离线预先编码，检索时只编码 Query，速度极快（毫秒级）。缺点：两者编码时互不感知，难以捕捉精细语义交互。
+
+<strong>Cross-Encoder（Reranker）</strong>：Query + Document 拼接输入，模型直接输出相关性分数。能捕捉精细语义交互，精度远高于 Bi-Encoder。缺点：无法预计算，每对都要重新跑，慢。
+
+<strong>两阶段架构（标准生产方案）：</strong>
+<div class="cb"><span class="kw">def</span> <span class="fn">two_stage_retrieve</span>(query, k_coarse=50, k_fine=5):
+    <span class="cm"># Stage 1: Bi-Encoder 快速粗召（毫秒级）</span>
+    candidates = vector_store.<span class="fn">similarity_search</span>(query, k=k_coarse)
+    
+    <span class="cm"># Stage 2: Cross-Encoder 精排（对50个候选，而非全库）</span>
+    scores = reranker.<span class="fn">predict</span>([[query, doc.content] <span class="kw">for</span> doc <span class="kw">in</span> candidates])
+    ranked = <span class="fn">sorted</span>(<span class="fn">zip</span>(candidates, scores), key=<span class="kw">lambda</span> x: x[1], reverse=<span class="kw">True</span>)
+    <span class="kw">return</span> [doc <span class="kw">for</span> doc, _ <span class="kw">in</span> ranked[:k_fine]]</div>
+
+<div class="tip">💡 推荐 Reranker：BGE-Reranker-v2（开源中文最强）、Cohere Rerank（API，效果好）。RAGFlow 内置了这个两阶段架构，这也是它比自建 RAG 效果好的原因。</div>
+</div></div></div>
+
+<div class="qa-card newc">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql green">N4</span>
+  <span class="qt">HyDE、多路检索、查询改写：具体实现和适用场景<span class="diff dm">重点</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>方法</th><th>思路</th><th>适用</th><th>成本</th></tr>
+<tr><td>HyDE</td><td>先生成假设答案，用假设答案向量检索</td><td>用户措辞与文档差距大</td><td>多1次LLM调用</td></tr>
+<tr><td>查询扩展</td><td>LLM 把短查询扩写成包含同义词的长查询</td><td>用户问题过于简短</td><td>多1次LLM调用</td></tr>
+<tr><td>子问题分解</td><td>复杂问题拆成多个子问题分别检索再合并</td><td>多跳推理问题</td><td>多N次检索</td></tr>
+<tr><td>Step-Back</td><td>先问更抽象的父问题，获取背景知识</td><td>需要领域背景的推理</td><td>多2次调用</td></tr>
+</table>
+
+<div class="cb"><span class="cm"># HyDE 实现</span>
+<span class="kw">def</span> <span class="fn">hyde_retrieve</span>(question):
+    <span class="cm"># 1. 生成假设答案（即使不准确）</span>
+    hypo = llm.<span class="fn">invoke</span>(<span class="st">f"请写一段回答这个问题的文字：{question}"</span>)
+    <span class="cm"># 2. 用假设答案向量检索（比原始问题更接近文档语言风格）</span>
+    docs = vector_store.<span class="fn">similarity_search</span>(hypo, k=10)
+    <span class="cm"># 3. 用原始问题+召回文档生成最终答案</span>
+    <span class="kw">return</span> <span class="fn">generate</span>(question, docs)</div>
+</div></div></div>
+</div>
+
+<!-- ========== S4: VECTORIZATION ========== -->
+<div class="section" id="s4">
+<div class="sec-hdr"><span class="sec-icon">🔢</span><span class="sec-title">向量化方案选型</span><span class="badge badge-new">v2 内容</span></div>
+
+<div class="qa-card newc">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql green">N5</span>
+  <span class="qt">Embedding 模型选型（中文/代码/多模态）+ 稀疏/稠密/多向量对比<span class="diff dm">重点</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<strong>场景选型：</strong>
+<table>
+<tr><th>场景</th><th>推荐模型</th><th>理由</th></tr>
+<tr><td>中文通用</td><td>BGE-large-zh-v1.5</td><td>MTEB中文榜第一，开源免费</td></tr>
+<tr><td>中英双语</td><td>BGE-M3</td><td>多语言，支持稀疏+稠密+多向量三合一</td></tr>
+<tr><td>英文通用</td><td>text-embedding-3-large</td><td>商用最强，3072维</td></tr>
+<tr><td>长文档</td><td>jina-embeddings-v2</td><td>支持 8192 Token 输入</td></tr>
+<tr><td>代码搜索</td><td>CodeBERT / UniXcoder</td><td>专门在代码数据训练</td></tr>
+</table>
+
+<strong>三种向量类型：</strong>稀疏向量（BM25/SPLADE，关键词精确匹配，可解释）→ 稠密向量（BGE，语义理解，OOV弱）→ 多向量（ColBERT，每Token一个向量，精度最高但存储大）。
+
+<div class="tip">💡 BGE-M3 最新支持三合一输出（同一个模型输出稀疏+稠密+多向量），是目前最全能的开源 Embedding 方案，值得重点关注。</div>
+
+<strong>模型路由（拆分）策略：</strong>意图识别→小分类模型；文档检索→Embedding+Reranker；复杂推理→大LLM；代码生成→代码专用模型。不同任务用不同模型，控制成本提升质量。
+</div></div></div>
+</div>
+
+<!-- ========== S5: TEXT PROCESSING ========== -->
+<div class="section" id="s5">
+<div class="sec-hdr"><span class="sec-icon">📄</span><span class="sec-title">文本处理工程细节</span><span class="badge badge-new">v2 内容</span></div>
+
+<div class="qa-card newc">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql green">N6</span>
+  <span class="qt">六种分块策略完整对比 + PDF踩坑点 + 文本清洗流水线<span class="diff dm">重点</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>策略</th><th>优点</th><th>缺点</th><th>适用</th></tr>
+<tr><td>固定大小+Overlap</td><td>简单均匀</td><td>可能截断句子</td><td>快速原型</td></tr>
+<tr><td>句子级别</td><td>语义完整</td><td>块大小不均匀</td><td>新闻文章</td></tr>
+<tr><td>递归字符（LangChain默认）</td><td>兼顾语义和大小</td><td>稍复杂</td><td>通用推荐</td></tr>
+<tr><td>语义切块</td><td>语义边界最准</td><td>计算量大</td><td>高质量知识库</td></tr>
+<tr><td>文档结构（标题/章节）</td><td>保留逻辑</td><td>需解析结构</td><td>技术手册/合同</td></tr>
+<tr><td><strong>父子块（推荐）</strong></td><td>检索精准+上下文完整</td><td>存储增加</td><td>长文档复杂问答</td></tr>
+</table>
+
+<strong>PDF 三大踩坑点：</strong>
+<ul>
+<li>扫描版PDF：需要 OCR（PaddleOCR），普通解析得到乱码</li>
+<li>表格：跨页表格和内部表格丢失行列关系，需要转 Markdown 格式保留结构</li>
+<li>页眉页脚："第3页 ©2024 公司名称"会污染每个 chunk，必须过滤</li>
+</ul>
+
+<div class="cb"><span class="cm"># RAG 专用清洗函数</span>
+<span class="kw">def</span> <span class="fn">clean_for_rag</span>(text):
+    text = re.<span class="fn">sub</span>(<span class="st">r'http\S+'</span>, <span class="st">''</span>, text)          <span class="cm"># 去URL</span>
+    text = re.<span class="fn">sub</span>(<span class="st">r'第\s*\d+\s*页'</span>, <span class="st">''</span>, text)    <span class="cm"># 去页码</span>
+    text = re.<span class="fn">sub</span>(<span class="st">r'\n{3,}'</span>, <span class="st">'\n\n'</span>, text)       <span class="cm"># 合并空行</span>
+    lines = [l.<span class="fn">strip</span>() <span class="kw">for</span> l <span class="kw">in</span> text.<span class="fn">split</span>(<span class="st">'\n'</span>) 
+             <span class="kw">if</span> <span class="fn">len</span>(l.<span class="fn">strip</span>()) > 10]             <span class="cm"># 去无意义短行</span>
+    <span class="kw">return</span> <span class="st">'\n'</span>.<span class="fn">join</span>(lines)</div>
+</div></div></div>
+</div>
+
+<!-- ========== S6: DEVELOPER VIEW ========== -->
+<div class="section" id="s6">
+<div class="sec-hdr"><span class="sec-icon">🛠</span><span class="sec-title">开发者视角：工程决策思维</span><span class="badge badge-new">v2 内容</span></div>
+
+<div class="qa-card newc">
+<div class="qa-q" onclick="tog(this)">
+  <span class="ql green">N7</span>
+  <span class="qt">Agent 可观测性：怎么监控和调试生产系统？<span class="diff dm">加分</span></span>
+  <span class="qa">▶</span>
+</div>
+<div class="qa-body"><div class="ac">
+三层监控：LLM 调用层（Prompt/输出/Token/延迟/报错）→ 检索层（召回文档/相似度/延迟/命中率）→ 业务层（满意度/任务完成率/成本）。
+
+工具：LangFuse（开源，可自托管）或 LangSmith（LangChain官方），自动记录完整执行链路 Trace。
+
+<div class="cb"><span class="cm"># 一次完整的 Trace 包含：</span>
+<span class="cm"># 用户输入 → Query改写 → 检索（召回文档+分数）→</span>
+<span class="cm"># Rerank（重排结果）→ LLM调用（Prompt+输出+Token）→</span>
+<span class="cm"># 用户反馈 → 整体耗时和成本</span></div>
+
+<div class="hi">🔑 主动说"我会监控这个系统"体现生产意识，大多数候选人只说功能实现，这是区分应用者和开发者的核心差异之一。</div>
+</div></div></div>
+</div>
+
+<!-- ========== BASIC SECTIONS (condensed) ========== -->
+<div class="section" id="b1">
+<div class="sec-hdr"><span class="sec-icon">🤖</span><span class="sec-title">AI 大模型 & 智能体原理</span><span class="badge badge-jd">JD ①③</span></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql blue">B1</span><span class="qt">Transformer 架构 + 预训练三阶段 + 幻觉根因与缓解<span class="diff de">基础</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+LLM = 自回归语言模型，训练目标：Next Token Prediction。三阶段：预训练（海量语料）→ SFT（指令微调）→ RLHF（人类反馈对齐）。<br>
+Transformer 核心：Self-Attention（全局关注，公式 Attention=softmax(QKᵀ/√dk)·V）→ FFN → LayerNorm。<br>
+<strong>幻觉根因</strong>：LLM 优化语言流畅性，不优化事实正确性。<strong>缓解</strong>：RAG（有依据回答）+ Temperature=0 + "不确定就说不知道"的 Prompt 约束 + Self-Consistency（多次采样投票）。<br>
+<strong>Temperature 调参</strong>：结构化输出→0；创意生成→0.7-1.0。Top-P（0.9）通常与 Temperature 叠加使用。
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql blue">B2</span><span class="qt">ReAct 范式 + Function Calling + Fine-tuning vs RAG + LoRA<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>ReAct</strong>：Thought（推理）→ Action（调用工具）→ Observation（观测结果）→ 循环，是主流 Agent 的核心范式。<br>
+<strong>Function Calling</strong>：开发者声明函数 Schema → LLM 判断是否调用并输出 JSON 参数 → 执行函数 → 结果返回 LLM 继续生成。<br>
+<strong>微调 vs RAG</strong>：微调改变权重（适合固定风格/语感，成本高），RAG 检索外部文档（适合频繁更新数据，可溯源，成本低）。优先选 RAG。<br>
+<strong>LoRA</strong>：冻结大部分参数，只训练低秩矩阵，大幅减少显存需求，是目前主流微调方案。
+</div></div></div>
+</div>
+
+<div class="section" id="b2">
+<div class="sec-hdr"><span class="sec-icon">✍️</span><span class="sec-title">提示词工程</span><span class="badge badge-jd">JD ③</span></div>
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql blue">B3</span><span class="qt">生产级 System Prompt 六要素 + CoT 变体选型 + Prompt Injection 防范<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>六要素</strong>：① 角色定义 ② 任务说明 ③ 上下文注入（动态数据）④ 输出格式约束 ⑤ 边界约束（禁止行为）⑥ Few-shot 示例。<br>
+<strong>CoT 选型</strong>：简单→不用；需要推理→加"step by step"（Zero-shot CoT）；需工具→ReAct；最高精度→Self-Consistency（多次采样投票）；需背景知识→Step-Back Prompting。<br>
+<strong>Prompt Injection 防范</strong>：<code>&lt;user_input&gt;</code> 标签隔离用户输入 + 最小权限工具 + 输出审核。<br>
+<strong>RAGAS 评估</strong>：Context Recall（相关文档有没有召回）/ Faithfulness（回答有没有幻觉）/ Answer Relevancy（回答有没有答题）。
+</div></div></div>
+</div>
+
+<div class="section" id="b3">
+<div class="sec-hdr"><span class="sec-icon">🗄️</span><span class="sec-title">SQL & 数据库</span><span class="badge badge-jd">JD ②</span></div>
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql blue">B4</span><span class="qt">窗口函数 + 索引失效 + 事务隔离 + 高频SQL题<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>窗口函数</strong>：<code>ROW_NUMBER() OVER(PARTITION BY x ORDER BY y)</code>；<code>LAG(v,1) OVER(ORDER BY date)</code> 求环比。<br>
+<strong>索引失效</strong>：函数运算、隐式类型转换、LIKE前缀通配（<code>%关键词</code>）、不满足最左前缀、OR含非索引列。EXPLAIN看type：ALL=全表，ref/range=索引。<br>
+<strong>ACID + MVCC</strong>：MySQL默认可重复读（RR），通过MVCC（多版本并发控制）实现读写不互相阻塞。<br>
+<strong>高频SQL</strong>：每部门最高薪→子查询+JOIN；连续3天登录→ROW_NUMBER减行号等差分组；月环比→LAG窗口函数。PostgreSQL + pgvector = 关系型数据库+向量库一体化，AI场景值得关注。
+</div></div></div>
+</div>
+
+<div class="section" id="b4">
+<div class="sec-hdr"><span class="sec-icon">🧮</span><span class="sec-title">机器学习算法</span><span class="badge badge-jd">JD ⑤</span></div>
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql blue">B5</span><span class="qt">随机森林/XGBoost/集成学习 + AUC vs F1 + 不平衡处理<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>随机森林（Bagging）</strong>：并行，降方差，R²=0.9044（你的项目），用特征重要性分析出体重是首要负向因素。<br>
+<strong>XGBoost（Boosting）</strong>：串行纠偏，降偏差，工程优化（二阶导+正则+列采样），竞赛常用。<br>
+<strong>集成策略</strong>：Bagging（降方差）→ Boosting（降偏差）→ Stacking（元学习器，上限最高）→ Voting/加权平均（简单有效）。你在职业规划项目里做了随机森林+梯度提升加权集成，R²从0.58提升到0.62。<br>
+<strong>指标选择</strong>：类别不平衡→AUC（不受比例影响）；精确率和召回率都重要→F1；医学筛查漏报代价大→Recall更关键。你的NIPT任务AUC=0.9478，用过采样+噪声增强处理不平衡。
+</div></div></div>
+</div>
+
+<div class="section" id="b5">
+<div class="sec-hdr"><span class="sec-icon">📝</span><span class="sec-title">NLP 基础</span><span class="badge badge-jd">JD ④</span></div>
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql blue">B6</span><span class="qt">BERT vs GPT + TF-IDF/BM25/向量检索 + 中文分词方案<span class="diff de">基础</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>BERT（编码器）</strong>：双向上下文，擅长理解（分类/NER），Sentence Embedding 质量高。<strong>GPT（解码器）</strong>：单向自回归，擅长生成。RAG里：Embedding用BERT类（BGE），生成用GPT/Claude类。<br>
+<strong>BM25 vs 向量</strong>：BM25 关键词精确（数字/缩写好），向量检索语义理解（同义词/近义词好）。混合检索（Hybrid）= 两者 + RRF 融合，互补优势。<br>
+<strong>中文分词</strong>：jieba（轻量，支持自定义词典）/ LAC（百度，语义更好）/ HanLP（功能最全）。RAG 场景必须配置领域词典，避免专有名词切碎导致 BM25 失配（见 H4/H5）。
+</div></div></div>
+</div>
+
+<div class="section" id="b6">
+<div class="sec-hdr"><span class="sec-icon">🏛️</span><span class="sec-title">数据湖 & 治理</span><span class="badge badge-jd">JD ⑦</span></div>
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql blue">B7</span><span class="qt">数仓分层 + Lakehouse + 数据治理 + LLM数据安全<span class="diff de">了解</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>数仓分层</strong>：ODS→DWD（清洗）→DWS（汇总）→ADS（应用指标）。星型模型（事实表+维度表，查询快）。<br>
+<strong>Lakehouse</strong>：数据湖（原始任意格式，Schema-on-Read）+ 数据仓库（ACID+分析性能）。代表：Delta Lake / Apache Iceberg。<br>
+<strong>数据治理核心</strong>：数据目录（元数据管理）/ 数据质量（完整性/准确性/时效性）/ 数据血缘（追踪数据从哪来流到哪）/ 字段级权限控制。<br>
+<strong>LLM特有安全风险</strong>：训练数据记忆泄露 / Prompt Injection泄露系统Prompt / RAG权限绕过（检索了不该看的文档）。防范：按用户权限预过滤文档 + 输出内容审核 + 私有化部署。
+</div></div></div>
+</div>
+
+<!-- ========== TEMPLATES ========== -->
+<div class="section" id="tmpl">
+<div class="sec-hdr"><span class="sec-icon">🎯</span><span class="sec-title">简历挂钩回答模板（更新版）</span><span class="badge badge-jd">必备</span></div>
+<div class="rl"><strong>💡 使用原则</strong>把技术答案和项目经历串联，用"在我的 XX 项目里，我是这样解决/设计/遇到的..."结尾，这才是开发者视角的完整表达。</div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql purple">★1</span><span class="qt">Token 爆炸你遇到过吗？你会怎么解决？（本次追问）<span class="diff ds">必练</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+"遇到过，我在盆栽系统的 QA 模块里就处理过这个问题。
+<br><br>
+<strong>问题来源</strong>：如果用户多轮对话，每次把所有历史 messages 都传给 DeepSeek API，随轮数线性增长，很快就会超过上下文窗口限制或导致成本失控。
+<br><br>
+<strong>我的解法</strong>：设计了 Token 预算管理——每次构建 Prompt 前，用 tiktoken 计算各部分 Token 数，按优先级分配预算：System Prompt 固定（约 300 Token）+ 最新传感器数据（约 200 Token）+ 用户问题（约 100 Token）= 核心部分约 600 Token，剩余预算给历史对话。历史对话超过预算时，只保留最近 3 轮，早期对话丢弃。
+<br><br>
+<strong>如果是企业级长对话 Agent</strong>，我会用 LangChain 的 ConversationSummaryBufferMemory——设置 Token 阈值（如 4000），超过时自动用 LLM 把旧对话摘要成 200 字，新 messages 结构变成：系统摘要 + 最近 6 条。这样既不丢失关键信息，也控制了 Token 增长。
+<br><br>
+<strong>还有两个架构层的优化</strong>：一是 Prefix Cache，把固定不变的 System Prompt 利用 OpenAI 的 Prompt Caching 功能缓存，相同前缀 Token 打折 50%；二是语义缓存，相同含义的重复提问直接返回缓存结果，完全不走 LLM。"
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql purple">★2</span><span class="qt">RAG 关键词匹配不上，你会从哪些地方排查？（本次追问）<span class="diff ds">必练</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+"这是 RAG 里一个很具体的工程问题，我会按四个层次排查：
+<br><br>
+<strong>第一层：Tokenization 问题（最先检查）</strong>——打印分词结果看专有名词有没有被切碎。比如 jieba 默认会把 'NIPT' 切成 ['N','I','P','T'] 四个单字，BM25 在文档里找不到这四个孤立字母，score=0，文档明明包含答案但召回失败。这种情况解法很直接：jieba.add_word('NIPT', freq=1000) 加自定义词典。
+<br><br>
+<strong>第二层：OOV / 同义词问题</strong>——用户措辞和文档措辞不一致。比如用户说'心梗'，文档写的是'心肌梗塞'，BM25 无法匹配。解法：配置同义词词典，或者用 LLM 动态扩展 Query，把问题改写成包含多种表达方式的版本再检索。
+<br><br>
+<strong>第三层：文档预处理误删</strong>——检查清洗逻辑有没有把关键词误删。最常见是停用词表太激进，把领域专有词当普通词删掉，或者把 'C'（编程语言）当停用词处理。要维护一个领域白名单。
+<br><br>
+<strong>第四层：混合检索兜底</strong>——根本解法是向量检索兜底关键词检索的失配。向量检索对语义相似性好，BM25 对精确词好，两路结果用 RRF 融合，互补覆盖。单纯修复 BM25 是治标，混合检索是治本。
+<br><br>
+在我的项目里，职业规划平台用 LLM 提取用户自述中的技术关键词时，也遇到过类似问题——用户写的是'做过深度学习相关工作'，但招聘数据里写的是'深度学习框架 PyTorch'，语义相似但关键词不重合。我的解法是先用 LLM 提取结构化技术标签，再用标签做精确匹配，绕过了这个问题。"
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql purple">★3</span><span class="qt">介绍你的 Agent 项目，并说明工程决策<span class="diff ds">必练</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+"我做了两个 Agent 项目，以盆栽系统为主介绍工程设计。
+<br><br>
+<strong>架构决策</strong>：本地规则引擎 + LLM 双层设计。土壤湿度低要浇水这类确定性逻辑走规则（快、零成本）；复杂的综合养护建议走 DeepSeek API。这个决策背后是成本和延迟的权衡——不是所有问题都值得调大模型。
+<br><br>
+<strong>RAG 设计（Grounding）</strong>：每次用户提问，后端实时查数据库拿最新传感器数据注入 System Prompt，把模型的回答锚定在可信数据上。同时加了数据边界声明：明确告诉模型哪些数据有、哪些没采集，防止它猜测。这是防幻觉的核心设计。
+<br><br>
+<strong>Token 预算管理</strong>：System Prompt 中传感器数据部分动态生成，但控制在 200 Token 以内；设置 max_tokens=500 限制输出，避免成本失控。
+<br><br>
+<strong>可靠性工程</strong>：CompletableFuture 异步调用，5 秒超时后 cancel 并降级到规则引擎，用户侧无感知。这是我从生产系统角度考虑的问题——外部 API 不可靠，必须有降级方案。
+<br><br>
+<strong>如果要升级为完整 RAG</strong>：加植物知识库，BGE-large-zh Embedding，混合检索（向量 + BM25，配置领域词典解决专有名词切碎问题），BGE-Reranker 两阶段精排，RAGAS 评估召回质量，LangFuse 监控每次调用的 Token 消耗和检索命中率。"
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="tog(this)"><span class="ql purple">★4</span><span class="qt">你的数据分析项目里遇到过什么工程挑战？<span class="diff ds">常问</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+"在全国数学建模大赛的 NIPT 数据分析里遇到两个典型挑战：
+<br><br>
+<strong>挑战一：类别不平衡</strong>——女胎异常判定任务里，异常样本极少（典型的长尾问题）。直接训练的话模型会全预测正常，Accuracy 很高但完全没用。解法：过采样 + 噪声增强合成少数类样本，并且把评估指标从 Accuracy 换成 AUC（AUC 不受类别比例影响），最终 AUC=0.9478。评估指标的选择和数据处理同样重要。
+<br><br>
+<strong>挑战二：分组边界主观</strong>——BMI 分组如果人工划定，每个研究者划法不同，结论不可复现。解法：用二阶差分法从数据里自动检测突变阈值，再用 ANOVA 验证组间统计显著性（F>9, p<0.001），让分组标准数据驱动、可验证。这是一个从"主观经验"到"工程化、可复现"的转变，也是工程意识的体现。
+<br><br>
+<strong>还有一个 Token 级别的工程细节</strong>：在职业规划平台里，爬取的招聘数据有大量中英文混排和特殊符号，jieba 分词对这类数据效果很差。我加了自定义词典（Python、Java、C++等编程语言词汇），并且用正则预处理去除特殊字符，才让后续的 NLP 特征提取稳定下来。"
+</div></div></div>
+</div>
+
+</div></div>
+
+<script>
+function tog(el){
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+  const op=document.querySelectorAll('.qa-q.open').length;
+  const total=document.querySelectorAll('.qa-card').length;
+  document.getElementById('oq').textContent=op;
+  document.getElementById('prog').style.width=Math.round(op/total*100)+'%';
+}
+function sa(a){
+  document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
+  a.classList.add('active');
+}
+window.onload=()=>{
+  document.getElementById('tq').textContent=document.querySelectorAll('.qa-card').length;
+};
+</script>
+</body>
+</html>
