@@ -9,11 +9,12 @@
 ## 用途1
 
 index.html 是本人面试用的突击手册，结合了面试经验
+
 针对性编写的100+QA
 目前有AGENT和CV模块
 有更多面经和更多基础知识想要添加的欢迎一起
 
-直接访问方式:进入网站https://snow_original.github.io/intervew-handbook-pages
+直接访问方式:进入网站https://snow-original.github.io/intervew-handbook-pages
 ## 用途2
 
 SKILL_resume.md 是本人修改建立使用的agent
