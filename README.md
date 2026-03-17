@@ -1,42 +1,23 @@
 # interview-handbook-pages
 
-这个目录已经可以直接用于 GitHub Pages 发布。
-
 ## 本地已完成
 
 - 页面入口文件：`index.html`
 - 本地 Git 仓库：已初始化
 - GitHub Pages 兼容：已准备
 
-## 推送到 GitHub
+## 用途1
 
-先在 GitHub 上新建一个空仓库，例如：`interview-handbook-pages`
+index.html 是本人面试用的突击手册，结合了面试经验
+针对性编写的100+QA
+目前有AGENT和CV模块
+有更多面经和更多基础知识想要添加的欢迎一起
 
-然后在这个目录执行：
+直接访问方式:进入网站https://snow_original.github.io/intervew-handbook-pages
+## 用途2
 
-```bash
-git add .
-git commit -m "init github pages site"
-git branch -M main
-git remote add origin 你的仓库地址
-git push -u origin main
-```
+SKILL_resume.md 是本人修改建立使用的agent
+可以下载下来喂给个人的agent，并上传岗位jd和待修改的简历
+agent会帮助用户针对性修改简历，并生成岗位skillgap和突击手册。
+欢迎继续迭代更新
 
-仓库地址示例：
-
-- HTTPS: `https://github.com/你的用户名/interview-handbook-pages.git`
-- SSH: `git@github.com:你的用户名/interview-handbook-pages.git`
-
-## 开启 GitHub Pages
-
-进入 GitHub 仓库页面：
-
-1. Settings
-2. Pages
-3. Build and deployment -> Source 选择 `Deploy from a branch`
-4. Branch 选择 `main`，目录选择 `/root`
-5. 保存
-
-几分钟后，页面通常会出现在：
-
-`https://你的用户名.github.io/interview-handbook-pages/`
