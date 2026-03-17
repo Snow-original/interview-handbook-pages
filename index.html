@@ -158,9 +158,36 @@ body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#F0F4FF;c
 .ac .code-block .str{color:#86EFAC}
 .ac .code-block .cm{color:#94A3B8}
 @media(max-width:768px){.sidebar{display:none}.content{padding:14px}}
+
+.tab-bar{display:flex;background:#0A0F1E;border-bottom:1px solid #1E3A5F;padding:0 36px;gap:0}
+.tab-btn{padding:12px 24px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:transparent;color:#64748B;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.3px}
+.tab-btn:hover{color:#93C5FD}
+.tab-btn.active-agent{color:#60A5FA;border-bottom-color:#3B82F6}
+.tab-btn.active-cv{color:#34D399;border-bottom-color:#10B981}
+.tab-badge{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;margin-left:6px;font-weight:700;vertical-align:middle}
+.agent-badge{background:#1E3A5F;color:#93C5FD}
+.cv-badge{background:#064E3B;color:#6EE7B7}
+#cv-panel .sidebar{background:#0B1E18}
+#cv-panel .nav-item:hover,#cv-panel .nav-item.active{border-left-color:#10B981;background:#0F2D22}
+#cv-panel .sec-hdr{border-bottom-color:#D1FAE5}
+#cv-panel .qa-card.hot{border-color:#6EE7B7}
+#cv-panel .qa-card.hot .qa-q{background:#F0FDF4}
+#cv-panel .ql.cv{background:#059669}
+#cv-panel .ac strong{color:#059669}
+#cv-panel .ac th{background:#F0FDF4;color:#065F46}
+#cv-panel .badge-cv{background:#D1FAE5;color:#065F46;font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600}
 </style>
 </head>
 <body>
+<div class="tab-bar">
+  <button class="tab-btn active-agent" id="tab-agent" onclick="switchTab('agent')">
+    🤖 Agent 岗<span class="tab-badge agent-badge">v3</span>
+  </button>
+  <button class="tab-btn" id="tab-cv" onclick="switchTab('cv')">
+    👁 计算机视觉岗<span class="tab-badge cv-badge">NEW</span>
+  </button>
+</div>
+<div id="agent-panel">
 
 <div class="hdr">
   <h1>🧠 面试突击手册 v3 · 生产级 Agent 开发者</h1>
@@ -1419,6 +1446,667 @@ arr[arr > 0]        <span class="cm"># 布尔索引（类似 pandas 筛选）</s
 </div>
 
 </div></div>
+</div><!-- /agent-panel -->
+
+<div id="cv-panel" style="display:none">
+
+<div class="feedback-bar" style="background:#064E3B;border-bottom-color:#10B981">
+  <span class="fb-title" style="color:#6EE7B7">📋 CV岗面试反馈 →</span>
+  <span class="fb-item" style="background:#0F2D22;color:#6EE7B7;border-color:#10B981">Transformer架构</span>
+  <span class="fb-item" style="background:#0F2D22;color:#6EE7B7;border-color:#10B981">多头注意力引入YOLO</span>
+  <span class="fb-item" style="background:#0F2D22;color:#6EE7B7;border-color:#10B981">手画网络架构图</span>
+  <span class="fb-item" style="background:#0F2D22;color:#6EE7B7;border-color:#10B981">激活函数还有哪些</span>
+  <span class="fb-item" style="background:#0F2D22;color:#6EE7B7;border-color:#10B981">DL解决数据分析场景题</span>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="sb-title">面试直接考点</div>
+  <a class="nav-item hot active" href="#cv-hot1" onclick="sa(this)"><span class="nav-num">🔥</span>Transformer架构</a>
+  <a class="nav-item hot" href="#cv-hot2" onclick="sa(this)"><span class="nav-num">🔥</span>多头注意力+YOLO</a>
+  <a class="nav-item hot" href="#cv-hot3" onclick="sa(this)"><span class="nav-num">🔥</span>手画网络架构图</a>
+  <a class="nav-item hot" href="#cv-hot4" onclick="sa(this)"><span class="nav-num">🔥</span>激活函数全集</a>
+  <a class="nav-item hot" href="#cv-hot5" onclick="sa(this)"><span class="nav-num">🔥</span>DL场景题</a>
+  <div class="sb-sep"></div>
+  <div class="sb-title">基础模块</div>
+  <a class="nav-item" href="#cv-det" onclick="sa(this)"><span class="nav-num">C1</span>目标检测</a>
+  <a class="nav-item" href="#cv-seg" onclick="sa(this)"><span class="nav-num">C2</span>分割算法</a>
+  <a class="nav-item" href="#cv-track" onclick="sa(this)"><span class="nav-num">C3</span>目标追踪</a>
+  <a class="nav-item" href="#cv-imgproc" onclick="sa(this)"><span class="nav-num">C4</span>图像处理基础</a>
+  <a class="nav-item" href="#cv-3d" onclick="sa(this)"><span class="nav-num">C5</span>3D感知</a>
+  <a class="nav-item" href="#cv-train" onclick="sa(this)"><span class="nav-num">C6</span>模型训练调试</a>
+  <div class="sb-sep"></div>
+  <div class="sb-title">简历模板</div>
+  <a class="nav-item" href="#cv-tmpl" onclick="sa(this)"><span class="nav-num">★</span>简历挂钩回答</a>
+</nav>
+
+<div class="content">
+
+<div class="stats">
+  <div class="sc"><div class="sn" id="cv-tq">0</div><div class="sl">CV总题数</div></div>
+  <div class="sc"><div class="sn" id="cv-oq" style="color:#059669">0</div><div class="sl">已读</div></div>
+  <div class="sc"><div class="sn" style="color:#059669">5</div><div class="sl">HOT模块</div></div>
+  <div class="sc"><div class="sn">9</div><div class="sl">总模块</div></div>
+  <div class="sc"><div class="sn">30+</div><div class="sl">题数</div></div>
+</div>
+<div class="pb"><div class="pf" id="cv-prog" style="width:0%;background:linear-gradient(90deg,#059669,#10B981)"></div></div>
+
+<!-- ===== HOT 1: Transformer ===== -->
+<div class="section" id="cv-hot1">
+<div class="sec-hdr"><span class="sec-icon">⚡</span><span class="sec-title">Transformer 架构精讲</span><span class="badge badge-cv">🔥 面试直接考点</span></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H1</span><span class="qt">Transformer 的完整架构是什么？每个组件的作用是什么？<span class="diff dh">必答</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+Transformer 由 <strong>Encoder</strong> 和 <strong>Decoder</strong> 堆叠而成，每层结构：
+
+<table>
+<tr><th>组件</th><th>作用</th><th>输出维度</th></tr>
+<tr><td><strong>Input Embedding</strong></td><td>把 Token/Patch 映射为向量</td><td>(N, d_model)</td></tr>
+<tr><td><strong>Positional Encoding</strong></td><td>注入位置信息（Transformer 本身无序列感知）</td><td>(N, d_model) 相加</td></tr>
+<tr><td><strong>Multi-Head Self-Attention</strong></td><td>建模序列内任意两个位置的依赖关系</td><td>(N, d_model)</td></tr>
+<tr><td><strong>Add & LayerNorm</strong></td><td>残差连接防梯度消失 + 归一化稳定训练</td><td>(N, d_model)</td></tr>
+<tr><td><strong>Feed-Forward Network（FFN）</strong></td><td>逐位置的非线性变换，通常 d_ff = 4×d_model</td><td>(N, d_model)</td></tr>
+<tr><td><strong>Add & LayerNorm</strong></td><td>同上</td><td>(N, d_model)</td></tr>
+</table>
+
+<strong>为什么 Transformer 能替代 CNN/RNN：</strong>
+<ul>
+<li>RNN：顺序计算，长距离梯度消失，无法并行</li>
+<li>CNN：感受野有限，需要堆叠很多层才能"看到"全局</li>
+<li>Transformer：全局注意力，任意两个位置一步直达，并行计算</li>
+</ul>
+
+<strong>Self-Attention 计算公式（必背）：</strong>
+<div class="cb"><span class="cm"># Q(Query), K(Key), V(Value) 由输入 X 线性变换得到</span>
+Q = X @ W_Q   <span class="cm"># (N, d_k)</span>
+K = X @ W_K   <span class="cm"># (N, d_k)</span>
+V = X @ W_V   <span class="cm"># (N, d_v)</span>
+
+<span class="cm"># 缩放点积注意力</span>
+Attention(Q, K, V) = softmax(Q @ K.T / sqrt(d_k)) @ V
+<span class="cm"># 除以 sqrt(d_k) 防止点积过大导致 softmax 梯度消失</span></div>
+
+<div class="hi">🔑 简历关联：你在亚太数模竞赛中做苹果成熟度检测，用到了 YOLOv8 并引入注意力机制，消融实验对比了 SE/CBAM 等，这正是 Transformer 注意力在 CV 中应用的实践。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H2</span><span class="qt">Positional Encoding 为什么必须有？有哪几种方式？<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>为什么必须有：</strong>Self-Attention 计算的是两个位置向量的相似度，它天然对顺序无感——把序列打乱，注意力分数不变。加入位置编码后，位置信息被融入向量表示。
+
+<table>
+<tr><th>方式</th><th>原理</th><th>优缺点</th></tr>
+<tr><td><strong>正弦/余弦编码（原版）</strong></td><td>PE(pos,2i)=sin(pos/10000^(2i/d))，不同频率的正余弦波</td><td>不需要学习，可外推到训练时没见过的长度；但和输入特征无关</td></tr>
+<tr><td><strong>可学习位置嵌入</strong></td><td>直接把位置索引 Embedding，和词 Embedding 相加</td><td>训练数据中的位置模式能被学到；但无法外推</td></tr>
+<tr><td><strong>RoPE（旋转位置编码）</strong></td><td>对 Q/K 向量做旋转变换，位置信息通过相对角度体现</td><td>GPT/LLaMA 采用，支持长度外推，相对位置感知强</td></tr>
+<tr><td><strong>2D 位置编码（ViT）</strong></td><td>图像 Patch 按行列打平后，对每个 Patch 位置编码</td><td>CV 领域扩展，适合图像的二维结构</td></tr>
+</table>
+
+<div class="tip">💡 ViT（Vision Transformer）就是把图像切成 16×16 的 Patch，每个 Patch 展平后当 Token，加 2D 位置编码后送入标准 Transformer Encoder。</div>
+</div></div></div>
+</div>
+
+<!-- ===== HOT 2: MHA + YOLO ===== -->
+<div class="section" id="cv-hot2">
+<div class="sec-hdr"><span class="sec-icon">👁</span><span class="sec-title">多头注意力如何引入 YOLO</span><span class="badge badge-cv">🔥 面试直接考点</span></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H3</span><span class="qt">Multi-Head Attention 的原理？为什么要"多头"？<span class="diff dh">必答</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>单头 vs 多头：</strong>
+
+单头注意力只能建模一种"关注模式"（一个语义空间的相似度），就像只有一种视角看世界。多头注意力在 h 个独立的低维子空间里分别计算注意力，每个 head 学习不同的关注模式，再拼接。
+
+<div class="cb"><span class="cm"># 多头注意力实现（PyTorch 风格）</span>
+<span class="kw">class</span> MultiHeadAttention:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, d_model=512, num_heads=8):
+        self.d_k = d_model // num_heads  <span class="cm"># 每个head的维度 = 512/8 = 64</span>
+        <span class="cm"># 每个head独立的 W_Q, W_K, W_V 投影</span>
+        self.W_Q = Linear(d_model, d_model)  <span class="cm"># 实际上是8个64维head并联</span>
+        self.W_K = Linear(d_model, d_model)
+        self.W_V = Linear(d_model, d_model)
+        self.W_O = Linear(d_model, d_model)  <span class="cm"># 输出投影</span>
+    
+    <span class="kw">def</span> <span class="fn">forward</span>(self, Q, K, V):
+        <span class="cm"># 分成 h 个头，各自计算 attention，再 concat</span>
+        Q = self.W_Q(Q).view(B, N, h, d_k).transpose(1, 2)  <span class="cm"># (B,h,N,d_k)</span>
+        K = self.W_K(K).view(B, N, h, d_k).transpose(1, 2)
+        V = self.W_V(V).view(B, N, h, d_k).transpose(1, 2)
+        
+        attn = softmax(Q @ K.transpose(-2,-1) / sqrt(d_k))  <span class="cm"># (B,h,N,N)</span>
+        out = attn @ V                                         <span class="cm"># (B,h,N,d_k)</span>
+        out = out.transpose(1,2).contiguous().view(B, N, d_model)
+        <span class="kw">return</span> self.W_O(out)  <span class="cm"># 输出投影合并多头</span></div>
+
+<strong>多头的意义：</strong>
+<ul>
+<li>Head 1 可能学到"近邻空间关系"</li>
+<li>Head 2 可能学到"语义相似关系"</li>
+<li>Head 3 可能学到"边缘与纹理对应关系"</li>
+<li>多头并行，最终 concat 获得更丰富的特征表示</li>
+</ul>
+
+<div class="hi">🔑 你在甲骨文识别项目里引入了多头交叉注意力（Cross-Attention）：Query 来自检测候选区域，Key/Value 来自全局特征图，让每个候选区域"关注"最相关的全局上下文。这就是多头注意力在检测任务中的典型应用。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H4</span><span class="qt">多头注意力是怎么引入 YOLO 的？有哪几种方式？<span class="diff dh">核心考点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+YOLO 系列引入注意力机制有三个层次，面试官问这个是在考察你对主流工作的系统理解：
+
+<strong>方式一：通道/空间注意力（SE / CBAM）——轻量插件式</strong>
+<table>
+<tr><th>模块</th><th>机制</th><th>插入位置</th></tr>
+<tr><td><strong>SE（Squeeze-and-Excitation）</strong></td><td>全局平均池化→FC→Sigmoid，对每个通道加权</td><td>C3/C2f 模块的 Bottleneck 后</td></tr>
+<tr><td><strong>CBAM</strong></td><td>通道注意力（SE）+ 空间注意力（卷积产生空间权重图）串联</td><td>Backbone 各阶段</td></tr>
+<tr><td><strong>ECA（无FC的SE改进）</strong></td><td>用 1D 卷积代替 FC，减少参数</td><td>同上</td></tr>
+</table>
+
+<strong>方式二：C2f 中的 Transformer Block（YOLOv8 官方）</strong>
+<div class="cb"><span class="cm"># YOLOv8 的 C2f 模块：CNN 主干中嵌入轻量 Self-Attention</span>
+<span class="cm"># C2f = Cross Stage Partial + 2 bottlenecks with flash attention</span>
+<span class="cm"># 部分 C2f 变体（如 C2f-CBAM, C2f-Attn）在 bottleneck 里加注意力</span>
+
+<span class="kw">class</span> C2f_Attn(nn.Module):
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        x1, x2 = chunk(x)
+        <span class="cm"># x1 走卷积分支</span>
+        <span class="cm"># x2 走 Self-Attention 分支（轻量版，窗口化降低复杂度）</span>
+        <span class="kw">return</span> concat([x1_conv, x2_attn])</div>
+
+<strong>方式三：DETR / RT-DETR——完全用 Transformer 替代 NMS</strong>
+<table>
+<tr><th>模型</th><th>核心思路</th><th>优势</th></tr>
+<tr><td><strong>DETR</strong></td><td>CNN提特征 → Transformer Encoder-Decoder → 直接预测100个目标</td><td>端到端，无需 NMS 后处理</td></tr>
+<tr><td><strong>RT-DETR</strong></td><td>百度出品，实时版 DETR，Encoder 用高效注意力</td><td>速度接近 YOLOv8，精度更高</td></tr>
+<tr><td><strong>YOLOv10</strong></td><td>NMS-Free，部分借鉴 DETR 思路</td><td>端到端推理，部署友好</td></tr>
+</table>
+
+<strong>方式四：Neck 中引入多尺度交叉注意力（面试加分点）</strong>
+<div class="cb"><span class="cm"># 在 FPN/PAN Neck 中，不同尺度 feature map 之间做 Cross-Attention</span>
+<span class="cm"># 大尺度 feature map 的 Query 关注小尺度 feature map 的 KV</span>
+<span class="cm"># 帮助小目标利用高层语义信息</span>
+<span class="cm"># 代表工作：YOLO-World、YOLOv9 中的多尺度注意力</span></div>
+
+<div class="dev" style="background:#F0FDF4;border-left-color:#059669">🛠 你的项目关联：亚太数模苹果检测里，你对 YOLOv8 引入注意力机制并做消融实验（SE vs CBAM），这正是"方式一"的实践。面试时说出"我对比了 SE 和 CBAM，SE 更轻量但 CBAM 在小目标上涨了 X mAP"，这种量化结论最有说服力。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H5</span><span class="qt">YOLO 系列的演进脉络：从 v1 到 v10 的关键改进<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>版本</th><th>核心创新</th><th>记忆点</th></tr>
+<tr><td>YOLOv1</td><td>第一个单阶段检测，把检测当回归</td><td>7×7 Grid，每格2框</td></tr>
+<tr><td>YOLOv3</td><td>多尺度预测（3个尺度），Darknet-53</td><td>FPN 思想，小目标提升</td></tr>
+<tr><td>YOLOv5</td><td>CSP结构，自动anchor，数据增强强化（Mosaic）</td><td>工程化成熟，社区最广</td></tr>
+<tr><td>YOLOv7</td><td>E-ELAN，辅助训练头</td><td>同等速度下精度最高</td></tr>
+<tr><td><strong>YOLOv8</strong></td><td>Anchor-free，C2f 模块，解耦头</td><td>统一检测/分割/姿态，目前最主流</td></tr>
+<tr><td>YOLOv9</td><td>GELAN，可编程梯度信息（PGI）</td><td>解决深层网络信息瓶颈</td></tr>
+<tr><td>YOLOv10</td><td>NMS-Free 双头设计</td><td>端到端，无后处理</td></tr>
+</table>
+
+<strong>YOLOv8 关键结构细节（必知）：</strong>
+<ul>
+<li><strong>Anchor-free</strong>：直接预测目标中心点偏移量，不再预设 anchor box 尺寸</li>
+<li><strong>C2f</strong>：比 C3 更丰富的梯度流，更少参数，引入跨层连接</li>
+<li><strong>解耦头</strong>：分类和回归用独立分支，两个任务不互相干扰</li>
+<li><strong>损失函数</strong>：分类用 BCE，回归用 DFL（Distribution Focal Loss）+ CIoU</li>
+</ul>
+</div></div></div>
+</div>
+
+<!-- ===== HOT 3: 手画架构图 ===== -->
+<div class="section" id="cv-hot3">
+<div class="sec-hdr"><span class="sec-icon">✏️</span><span class="sec-title">手画网络架构图</span><span class="badge badge-cv">🔥 面试直接考点</span></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H6</span><span class="qt">面试官让你手画一个目标检测网络架构图，怎么画才能得高分？<span class="diff dh">必答</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+这道题考的不只是"会画"，而是你对检测网络三段式结构的系统理解。
+
+<strong>标准三段式架构（画这个不会错）：</strong>
+<div class="cb"><span class="cm">输入图像 (640×640×3)</span>
+       ↓
+┌─────────────────────────────┐
+│  Backbone (特征提取)          │
+│  CSPDarknet / ResNet / ViT  │
+│  输出多尺度特征图:             │
+│  P3: 80×80×256（小目标）     │
+│  P4: 40×40×512（中目标）     │
+│  P5: 20×20×1024（大目标）    │
+└─────────────────────────────┘
+       ↓
+┌─────────────────────────────┐
+│  Neck (特征融合)              │
+│  FPN (自上而下) + PAN (自下而上)│
+│  = PANet / BiFPN             │
+│  让每个尺度都融合了其他尺度信息  │
+└─────────────────────────────┘
+       ↓
+┌─────────────────────────────┐
+│  Head (预测)                 │
+│  解耦头：分类分支 + 回归分支   │
+│  每个尺度独立预测              │
+│  分类：C 个类别的概率           │
+│  回归：(x, y, w, h) + 置信度  │
+└─────────────────────────────┘
+       ↓
+  后处理: NMS (非极大值抑制)</div>
+
+<strong>画图时要说的关键点（口头表达）：</strong>
+<ol>
+<li>为什么需要多尺度特征：小目标在深层特征图上消失了，需要浅层高分辨率特征</li>
+<li>FPN 和 PAN 的方向：FPN 自上而下传语义，PAN 自下而上传位置精度</li>
+<li>解耦头的意义：分类和回归的最优特征不同，共享头会互相干扰</li>
+<li>NMS 的作用：同一个目标可能被多个格子检测到，NMS 保留置信度最高的框</li>
+</ol>
+
+<div class="tip">💡 加分操作：主动标注每个特征图的维度（H×W×C），显示你对数据流的清晰理解。画完后说"如果要加注意力机制，我会在 C2f 的 Bottleneck 处插入 CBAM"，这就把面试反馈的考点串联起来了。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H7</span><span class="qt">除了检测网络，能画出 ResNet 的残差结构和 Transformer 编码器层吗？<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>ResNet 残差块（Residual Block）：</strong>
+<div class="cb"><span class="cm">输入 x</span>
+  │          │（shortcut/identity connection）
+  ↓          │
+Conv(3×3)    │
+BatchNorm    │
+ReLU         │
+  ↓          │
+Conv(3×3)    │
+BatchNorm    │
+  ↓          │
+  + ─────────┘  (element-wise addition)
+  ↓
+ReLU
+输出 F(x) + x</div>
+
+<strong>为什么有效：</strong>让网络学"残差" F(x) = H(x) - x，比直接学映射 H(x) 更容易。最坏情况 F(x)=0，即恒等映射，梯度畅通传回浅层。
+
+<strong>Transformer Encoder 单层：</strong>
+<div class="cb"><span class="cm">输入 x (N, d_model)</span>
+  │
+  ├── Multi-Head Self-Attention(x, x, x)
+  │         ↓
+  └── Add & LayerNorm (残差连接)
+           ↓
+  ├── Feed-Forward: Linear → ReLU/GELU → Linear
+  │         ↓
+  └── Add & LayerNorm
+           ↓
+输出 (N, d_model)</div>
+
+<div class="hi">🔑 手画这两个结构时，最关键的是画出残差连接（shortcut）和 Add & Norm，这是两个架构的核心创新，面试官最关注的就是这个位置。</div>
+</div></div></div>
+</div>
+
+<!-- ===== HOT 4: 激活函数 ===== -->
+<div class="section" id="cv-hot4">
+<div class="sec-hdr"><span class="sec-icon">⚙️</span><span class="sec-title">激活函数全集</span><span class="badge badge-cv">🔥 面试直接考点</span></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H8</span><span class="qt">激活函数还有哪些？各自的适用场景和优缺点是什么？<span class="diff dh">必答</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+面试官问"还有哪些"，意思是你说完 ReLU 之后还能说什么。要分三类来回答：
+
+<strong>第一类：ReLU 家族</strong>
+<table>
+<tr><th>函数</th><th>公式</th><th>特点</th><th>用在哪</th></tr>
+<tr><td><strong>ReLU</strong></td><td>max(0, x)</td><td>最简单，计算快；Dead Neuron 问题（x<0梯度永远为0）</td><td>CNN隐藏层默认选择</td></tr>
+<tr><td><strong>Leaky ReLU</strong></td><td>x if x>0 else 0.01x</td><td>负区间有小梯度，缓解 Dead Neuron</td><td>GAN 中常用</td></tr>
+<tr><td><strong>PReLU</strong></td><td>x if x>0 else αx（α可学习）</td><td>负斜率自适应学习</td><td>ResNet 原作用过</td></tr>
+<tr><td><strong>RReLU</strong></td><td>负区间斜率随机，训练时加正则</td><td>一种正则化手段</td><td>较少用</td></tr>
+</table>
+
+<strong>第二类：Sigmoid 家族</strong>
+<table>
+<tr><th>函数</th><th>公式</th><th>特点</th><th>用在哪</th></tr>
+<tr><td><strong>Sigmoid</strong></td><td>1/(1+e^(-x))</td><td>输出(0,1)；梯度消失（饱和区梯度≈0）</td><td>二分类输出层、注意力权重</td></tr>
+<tr><td><strong>Tanh</strong></td><td>(e^x-e^(-x))/(e^x+e^(-x))</td><td>输出(-1,1)，零中心；同样有梯度消失</td><td>RNN 隐层</td></tr>
+<tr><td><strong>Hard-Sigmoid</strong></td><td>分段线性近似 Sigmoid</td><td>计算更快，用于移动端</td><td>MobileNet 系列</td></tr>
+</table>
+
+<strong>第三类：现代激活函数（面试加分项）</strong>
+<table>
+<tr><th>函数</th><th>公式</th><th>特点</th><th>用在哪</th></tr>
+<tr><td><strong>GELU</strong></td><td>x·Φ(x)（Φ为正态CDF）</td><td>平滑，考虑了输入的概率；无负区间死亡</td><td>Transformer FFN 层（BERT/GPT标准）</td></tr>
+<tr><td><strong>SiLU / Swish</strong></td><td>x·Sigmoid(x)</td><td>自门控，平滑；Google Brain 提出</td><td><strong>YOLOv8 默认激活函数</strong></td></tr>
+<tr><td><strong>Mish</strong></td><td>x·tanh(softplus(x))</td><td>无上界，平滑，负值不完全归零</td><td>YOLOv4 中使用</td></tr>
+<tr><td><strong>ELU</strong></td><td>x if x>0 else α(e^x-1)</td><td>负区间均值接近0，减少偏移</td><td>部分回归任务</td></tr>
+</table>
+
+<strong>选激活函数的原则（一句话）：</strong>
+<ul>
+<li>CNN 隐藏层 → ReLU（快）或 SiLU（效果更好）</li>
+<li>Transformer FFN → GELU（标准选择）</li>
+<li>输出层分类 → Sigmoid（二分类）/ Softmax（多分类）</li>
+<li>输出层回归 → 无激活函数（或 Linear）</li>
+<li>GAN 中 → Leaky ReLU（防 Generator 梯度死亡）</li>
+</ul>
+
+<div class="hi">🔑 面试官问"还有哪些"时，说出 GELU（Transformer里用）和 SiLU（YOLOv8里用）就已经超出大多数候选人了。再加一句"YOLOv8 把默认激活函数从 ReLU 换成了 SiLU，是因为 SiLU 的平滑性带来了更好的梯度流"，非常加分。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H9</span><span class="qt">梯度消失的根本原因？各种激活函数如何缓解？<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>根本原因：</strong>反向传播中，每一层的梯度 = 该层梯度 × 前一层梯度 × ... 链式相乘。如果每层梯度 < 1（如 Sigmoid 饱和区导数 ≈ 0.25），多层相乘后趋近于 0，靠近输入层的参数几乎不更新。
+
+<strong>各方案的解法：</strong>
+<table>
+<tr><th>方法</th><th>怎么解决</th></tr>
+<tr><td>ReLU 激活</td><td>正区间梯度恒为 1，不会饱和；但引入了 Dead Neuron 问题</td></tr>
+<tr><td>残差连接（ResNet）</td><td>梯度可以从输出直接"跳"回输入，不经过中间层；梯度高速公路</td></tr>
+<tr><td>BatchNorm</td><td>归一化每层输出，防止激活值进入饱和区</td></tr>
+<tr><td>GELU/SiLU</td><td>平滑激活，负区间不完全为0，减少梯度断流</td></tr>
+<tr><td>正确权重初始化</td><td>Xavier/Kaiming 初始化，让方差在层间保持稳定</td></tr>
+<tr><td>Transformer（LayerNorm+残差）</td><td>每层都有残差连接，梯度可以从任意深度直接回流</td></tr>
+</table>
+</div></div></div>
+</div>
+
+<!-- ===== HOT 5: DL Scene ===== -->
+<div class="section" id="cv-hot5">
+<div class="sec-hdr"><span class="sec-icon">🧮</span><span class="sec-title">DL 解决数据分析场景题</span><span class="badge badge-cv">🔥 面试直接考点</span></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H10</span><span class="qt">给你一个数据分析问题，怎么用深度学习方法解决？完整思路是什么？<span class="diff dh">必答</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+面试官给的"场景题"通常是：给一批传感器/工业/医疗数据，让你说用 ML/DL 怎么分析。以下是标准答题框架：
+
+<strong>第一步：问题定性</strong>
+<div class="cb"><span class="cm">先问清楚（或主动假设）：</span>
+- 监督/无监督？有标签→监督；没标签→聚类/异常检测
+- 任务类型：分类、回归、序列预测、异常检测？
+- 数据类型：表格数据、时序数据、图像、文本？
+- 评估指标：AUC/F1（分类）、MAE/RMSE（回归）、精度/召回（检测）</div>
+
+<strong>第二步：数据处理</strong>
+<table>
+<tr><th>数据类型</th><th>处理方法</th><th>DL 特有</th></tr>
+<tr><td>表格数据</td><td>缺失值填充、归一化、LabelEncoder</td><td>Embedding 处理高基数类别特征</td></tr>
+<tr><td>时序数据</td><td>滑动窗口切片、差分平稳化</td><td>LSTM/Transformer 时序建模</td></tr>
+<tr><td>图像数据</td><td>归一化、Resize、数据增强</td><td>CNN/ViT 特征提取</td></tr>
+</table>
+
+<strong>第三步：模型选型（关键）</strong>
+<div class="cb"><span class="cm">数据量少（<10万行）→ 优先 XGBoost/随机森林（你的竞赛经验）</span>
+<span class="cm">数据量大 + 时序 → LSTM / Transformer</span>
+<span class="cm">图像数据 → CNN（ResNet/EfficientNet）或 ViT</span>
+<span class="cm">类别不平衡 → 过采样/加权损失（你的NIPT项目经验）</span>
+<span class="cm">特征交互复杂 → TabNet / FT-Transformer（表格数据深度模型）</span></div>
+
+<strong>第四步：训练与评估</strong>
+<ul>
+<li>K 折交叉验证（防评估偏差）</li>
+<li>早停（Early Stopping）防过拟合</li>
+<li>学习率调度（Warmup + Cosine Decay，Transformer 必备）</li>
+<li>可解释性：特征重要性（你的项目经验）/ SHAP / GradCAM（视觉模型）</li>
+</ul>
+
+<div class="hi">🔑 这道题最佳回答策略：先说"我需要明确问题类型和数据特点"，然后按以上四步展开。体现"数据驱动的工程思维"，结合你的数学建模竞赛（NIPT项目）举例，比泛泛而谈强十倍。</div>
+</div></div></div>
+
+<div class="qa-card hot">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql cv">H11</span><span class="qt">BatchNorm / LayerNorm / GroupNorm 的区别？在 CV 里怎么选？<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>归一化</th><th>在哪个维度做统计</th><th>适用</th><th>注意</th></tr>
+<tr><td><strong>BatchNorm</strong></td><td>跨 batch 对同一个 channel 归一化</td><td>CNN（batch_size 较大时效果好）</td><td>batch_size 小时不稳定（如检测任务 batch=2）</td></tr>
+<tr><td><strong>LayerNorm</strong></td><td>对单个样本的所有特征归一化</td><td>Transformer、NLP</td><td>不依赖 batch，适合变长序列</td></tr>
+<tr><td><strong>GroupNorm</strong></td><td>把 channel 分组，组内归一化</td><td>CV 中 batch_size 小的场景（目标检测/分割）</td><td>不依赖 batch，检测训练常用</td></tr>
+<tr><td><strong>InstanceNorm</strong></td><td>每个样本、每个 channel 独立归一化</td><td>风格迁移</td><td>丢失 channel 间关系</td></tr>
+</table>
+
+<div class="tip">💡 在目标检测任务中（batch_size 通常只有 2-4），BN 效果差，GroupNorm（GN）是更好的选择。Detectron2（Facebook）默认用 GN。ViT 用 LayerNorm，标准 CNN 用 BN。</div>
+</div></div></div>
+</div>
+
+<!-- ===== C1: Detection ===== -->
+<div class="section" id="cv-det">
+<div class="sec-hdr"><span class="sec-icon">📦</span><span class="sec-title">目标检测</span><span class="badge badge-jd">JD 要求</span></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C1</span><span class="qt">单阶段 vs 双阶段检测器：核心区别与取舍<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th></th><th>双阶段（Two-stage）</th><th>单阶段（One-stage）</th></tr>
+<tr><td>代表</td><td>Faster R-CNN, Mask R-CNN</td><td>YOLO, SSD, RetinaNet</td></tr>
+<tr><td>流程</td><td>① RPN 提候选区域 → ② 分类+精修</td><td>一次性预测所有框和类别</td></tr>
+<tr><td>精度</td><td>高（小目标好）</td><td>略低（但持续追赶）</td></tr>
+<tr><td>速度</td><td>慢（两次前向传播）</td><td>快（端到端）</td></tr>
+<tr><td>适用</td><td>精度优先，离线分析</td><td>实时检测，机器人/自动驾驶</td></tr>
+</table>
+
+<strong>IoU（交并比）和各种变体损失：</strong>
+<ul>
+<li><strong>IoU</strong>：两个框重叠面积/并集面积，值域[0,1]</li>
+<li><strong>GIoU</strong>：加入最小外接矩形，解决无重叠时梯度为0的问题</li>
+<li><strong>DIoU</strong>：加入中心点距离惩罚，收敛更快</li>
+<li><strong>CIoU</strong>：DIoU + 宽高比一致性惩罚，YOLOv8 默认使用</li>
+</ul>
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C2</span><span class="qt">NMS（非极大值抑制）的原理？有哪些改进版本？<span class="diff de">基础</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>标准 NMS 流程：</strong>
+<ol>
+<li>按置信度降序排列所有候选框</li>
+<li>取置信度最高的框 B，放入输出列表</li>
+<li>计算其余所有框与 B 的 IoU</li>
+<li>删除 IoU > 阈值（如 0.5）的框（认为是重复检测）</li>
+<li>重复 2-4，直到没有候选框</li>
+</ol>
+<strong>改进版本：</strong>Soft-NMS（不删除而是降低置信度，适合密集场景）；NMS-Free（DETR/RT-DETR，用 Transformer 直接输出唯一框，彻底去掉后处理）。
+</div></div></div>
+</div>
+
+<!-- ===== C2: Segmentation ===== -->
+<div class="section" id="cv-seg">
+<div class="sec-hdr"><span class="sec-icon">🎨</span><span class="sec-title">图像分割</span><span class="badge badge-jd">JD 要求</span></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C3</span><span class="qt">语义分割、实例分割、全景分割的区别？各自代表模型？<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>类型</th><th>区分目标？</th><th>区分类别？</th><th>代表模型</th></tr>
+<tr><td><strong>语义分割</strong></td><td>❌（同类算一个）</td><td>✅</td><td>FCN, DeepLab, SegFormer</td></tr>
+<tr><td><strong>实例分割</strong></td><td>✅（每个物体单独）</td><td>✅</td><td>Mask R-CNN, SOLOv2, YOLOv8-seg</td></tr>
+<tr><td><strong>全景分割</strong></td><td>✅（物体）+ 背景区域</td><td>✅</td><td>Panoptic FPN, Mask2Former</td></tr>
+</table>
+
+<strong>FCN（全卷积网络）为什么能做分割：</strong>把 CNN 最后的全连接层换成 1×1 卷积，输出是与输入同空间大小的热力图，每个像素有类别预测。再用转置卷积上采样回原始分辨率。
+
+<strong>SAM（Segment Anything Model）：</strong>Meta 提出，用 ViT 作骨干，支持点/框/文字提示分割任意目标。代表了基础模型（Foundation Model）在 CV 的最新进展。
+</div></div></div>
+</div>
+
+<!-- ===== C3: Tracking ===== -->
+<div class="section" id="cv-track">
+<div class="sec-hdr"><span class="sec-icon">🎯</span><span class="sec-title">目标追踪</span><span class="badge badge-jd">JD 要求</span></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C4</span><span class="qt">目标追踪的基本框架：SORT → DeepSORT → ByteTrack<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>追踪 = 检测 + 关联（Detection + Association）</strong>
+
+<table>
+<tr><th>方法</th><th>关联策略</th><th>特点</th></tr>
+<tr><td><strong>SORT</strong></td><td>IoU + 卡尔曼滤波预测位置</td><td>简单快速；外观变化大时 ID 容易跳变</td></tr>
+<tr><td><strong>DeepSORT</strong></td><td>IoU + 外观特征（Re-ID网络提取）匈牙利匹配</td><td>ID 更稳定；需要额外 Re-ID 模型</td></tr>
+<tr><td><strong>ByteTrack</strong></td><td>高/低分框两级匹配，不丢弃低置信度框</td><td>遮挡场景效果好；ByteDance 出品，目前主流</td></tr>
+<tr><td><strong>OC-SORT</strong></td><td>改进卡尔曼滤波，考虑运动方向变化</td><td>非线性运动场景更好</td></tr>
+</table>
+
+<strong>卡尔曼滤波的作用：</strong>在检测器偶尔漏检时，用运动模型预测目标在下一帧的位置，保持轨迹连续性，避免 ID 切断。
+
+<div class="tip">💡 YOLOv8 官方集成了 ByteTrack，使用 `yolo track model=yolov8n.pt` 一行命令即可运行多目标追踪。面试时可以说"我了解追踪的端到端流程，在实际工程中可以用 YOLOv8+ByteTrack 快速搭建追踪系统"。</div>
+</div></div></div>
+</div>
+
+<!-- ===== C4: Image Processing ===== -->
+<div class="section" id="cv-imgproc">
+<div class="sec-hdr"><span class="sec-icon">🖼️</span><span class="sec-title">图像处理基础</span><span class="badge badge-jd">JD 要求</span></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C5</span><span class="qt">常用图像增强方法有哪些？YOLO 训练时用的 Mosaic 增强是什么？<span class="diff de">基础</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>类别</th><th>方法</th><th>效果</th></tr>
+<tr><td>几何变换</td><td>随机裁剪、翻转、旋转、透视变换</td><td>增强位置不变性</td></tr>
+<tr><td>颜色变换</td><td>亮度/对比度/饱和度抖动、色调偏移</td><td>增强光照鲁棒性</td></tr>
+<tr><td>遮挡模拟</td><td>Cutout（随机遮挡矩形块）、GridMask</td><td>防止模型过度依赖局部特征</td></tr>
+<tr><td>混合增强</td><td><strong>Mosaic</strong>（4张图拼一张）、MixUp（两图加权叠加）</td><td>增加小目标和上下文多样性</td></tr>
+<tr><td>风格迁移</td><td>CycleGAN、随机风格迁移</td><td>领域适应</td></tr>
+</table>
+
+<strong>Mosaic 增强详解（YOLOv5 提出，YOLOv8 默认使用）：</strong>
+<ul>
+<li>随机取 4 张训练图，拼成一张大图</li>
+<li>同时包含 4 种场景上下文，相当于变相扩大 batch</li>
+<li>每个小图都包含原始标注框，但坐标需要相应变换</li>
+<li>效果：大幅提升小目标检测性能，因为小目标被随机放入各种复杂背景</li>
+</ul>
+
+<strong>图像去噪常用方法：</strong>高斯滤波（平滑高斯噪声）、中值滤波（去椒盐噪声，保边缘）、双边滤波（保边缘的平滑）、DnCNN（深度学习去噪）。
+</div></div></div>
+</div>
+
+<!-- ===== C5: 3D ===== -->
+<div class="section" id="cv-3d">
+<div class="sec-hdr"><span class="sec-icon">🗺️</span><span class="sec-title">3D 感知基础</span><span class="badge badge-jd">JD 要求</span></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C6</span><span class="qt">点云数据是什么？PointNet 的核心思想是什么？<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>点云（Point Cloud）：</strong>3D 空间中的离散点集合，每个点包含 (x, y, z) 坐标，可附加颜色/强度/法向量。来源：激光雷达（LiDAR）、深度相机（RGB-D）、SLAM。
+
+<strong>3D 感知挑战：</strong>点云是无序的（点的排列顺序不影响语义）且稀疏（不均匀分布），传统 CNN 不能直接处理。
+
+<strong>PointNet 核心思想：</strong>
+<ol>
+<li>对每个点独立用共享 MLP 提取特征（保证置换不变性）</li>
+<li>对所有点的特征做全局最大池化（Max Pooling），得到全局描述子</li>
+<li>Max Pooling 保证了无论点的顺序如何，输出相同</li>
+</ol>
+
+<strong>3D 目标检测主流方法：</strong>
+<table>
+<tr><th>方法</th><th>思路</th><th>代表</th></tr>
+<tr><td>点云直接处理</td><td>PointNet 提特征，在3D空间预测框</td><td>PointPillars, PV-RCNN</td></tr>
+<tr><td>体素化</td><td>把点云离散化为体素网格，再用3D CNN</td><td>VoxelNet</td></tr>
+<tr><td>图像+点云融合</td><td>2D 相机 + LiDAR 多模态融合</td><td>PointPainting, MVX-Net</td></tr>
+</table>
+</div></div></div>
+</div>
+
+<!-- ===== C6: Training ===== -->
+<div class="section" id="cv-train">
+<div class="sec-hdr"><span class="sec-icon">🏋️</span><span class="sec-title">模型训练与调试</span><span class="badge badge-jd">JD 要求</span></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C7</span><span class="qt">学习率调度策略有哪些？Warmup 为什么在 Transformer 里必须有？<span class="diff dm">重点</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<table>
+<tr><th>策略</th><th>原理</th><th>适用</th></tr>
+<tr><td>Step Decay</td><td>每N个epoch乘以衰减系数</td><td>CNN经典训练</td></tr>
+<tr><td>Cosine Annealing</td><td>学习率按余弦曲线从高到低</td><td>YOLO训练标配</td></tr>
+<tr><td>Warmup + Cosine</td><td>前N步线性升高到初始lr，然后Cosine下降</td><td>Transformer必备</td></tr>
+<tr><td>OneCycleLR</td><td>先升后降，一个周期</td><td>FastAI推荐，收敛快</td></tr>
+<tr><td>ReduceLROnPlateau</td><td>验证集性能不提升则降lr</td><td>训练后期微调</td></tr>
+</table>
+
+<strong>Warmup 为什么对 Transformer 必须：</strong>Transformer 随机初始化的参数方差大，一开始用大学习率会把注意力权重推到极端值（全 0 或全 1），破坏训练稳定性。Warmup 让参数先在小学习率下做小幅调整，建立合理的初始状态，再逐步加速。
+
+<strong>模型调试常见问题和排查：</strong>
+<ul>
+<li>Loss 不收敛 → 检查学习率（太大）、数据归一化、标签是否正确</li>
+<li>验证集 Loss 上升（过拟合）→ 加正则化、Dropout、数据增强、减小模型</li>
+<li>训练集 Loss 高（欠拟合）→ 加大模型、降低正则、增加训练轮次</li>
+<li>Loss 有 NaN → 学习率太大 / 数值溢出（加 gradient clipping）</li>
+</ul>
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql blue">C8</span><span class="qt">GradCAM 是什么？怎么解释 CV 模型在"看哪里"？<span class="diff de">了解</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+<strong>GradCAM（Gradient-weighted Class Activation Mapping）：</strong>通过计算目标类别的梯度对最后一层卷积特征图的权重，生成热力图，可视化模型关注的图像区域。
+
+<div class="cb"><span class="cm"># 使用 pytorch-gradcam 一行可视化</span>
+<span class="kw">from</span> pytorch_grad_cam <span class="kw">import</span> GradCAM
+cam = <span class="fn">GradCAM</span>(model=model, target_layers=[model.layer4])
+grayscale_cam = cam(input_tensor=input, targets=targets)
+<span class="cm"># grayscale_cam 叠加到原图上就是可视化结果</span></div>
+
+应用场景：
+<ul>
+<li>调试：模型预测错误时，看它在关注图像的哪个区域</li>
+<li>验证：确认模型学到了真正的判别特征，而不是背景捷径</li>
+<li>医疗 CV：给医生展示模型诊断的依据区域</li>
+</ul>
+</div></div></div>
+</div>
+
+<!-- ===== Templates ===== -->
+<div class="section" id="cv-tmpl">
+<div class="sec-hdr"><span class="sec-icon">🎯</span><span class="sec-title">简历挂钩回答模板</span><span class="badge badge-jd">必练</span></div>
+<div class="rl" style="background:#F0FDF4;border-color:#6EE7B7;color:#065F46"><strong>💡 CV 岗回答原则</strong>每道技术题结尾带上你在苹果检测/甲骨文识别竞赛里的实际操作，把理论和实战串联起来。</div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql purple">★1</span><span class="qt">Transformer 架构你了解吗？能结合你的项目说说吗？<span class="diff ds">必练</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+"了解，而且在项目里有实际引入注意力机制的实践。
+<br><br>
+Transformer 的核心是 Self-Attention，公式是 softmax(QKᵀ/√dk)·V，Q/K/V 都是输入的线性变换。多头的意义是让模型在多个子空间分别学习不同的关注模式，再拼接，就像用多个视角同时理解图像。每层还有残差连接和 LayerNorm，保证梯度稳定传播。
+<br><br>
+在我亚太数模竞赛的苹果检测项目里，我对 YOLOv8 引入了注意力机制。我做了消融实验，对比了 SE（通道注意力）和 CBAM（通道+空间联合注意力）的效果差异——SE 更轻量，CBAM 在小目标场景下对检测精度的提升更明显。这实际上就是把注意力机制作为插件插入 C2f 模块的 Bottleneck 处。
+<br><br>
+在甲骨文识别项目里，我引入了多头交叉注意力：每个候选文字区域的特征作为 Query，整体图像特征图作为 Key/Value，让模型能够关注全局上下文来辅助识别笔画形态相似的古文字。"
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql purple">★2</span><span class="qt">你手画一个你最熟悉的网络架构，并解释每个部分的设计理由<span class="diff ds">必练</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+"我画 YOLOv8 的整体架构，这是我项目里用过的。
+<br><br>
+<strong>三段式结构：</strong>Backbone（CSPDarknet + C2f 模块）负责提取多尺度特征图，在 P3/P4/P5 三个尺度输出——小尺度高语义适合大目标，大尺度高分辨率适合小目标。
+<br><br>
+Neck 用 PANet（FPN自上而下传语义 + PAN自下而上传位置），让每个尺度都融合了其他尺度的信息，解决单一尺度特征对不同大小目标适应性差的问题。
+<br><br>
+Head 用解耦头：分类和回归走独立分支，因为两个任务最优的特征表示不同，共享头会互相干扰。
+<br><br>
+C2f 和 v5 的 C3 相比，增加了更多的跨层连接，梯度流更丰富，参数更少。YOLOv8 还把激活函数从 ReLU 换成了 SiLU，SiLU 平滑的负值响应带来了更好的梯度流。
+<br><br>
+如果要在这个架构里加注意力，我会在 C2f 的 Bottleneck 后面插入 CBAM，这是我在苹果检测竞赛里验证过的。"
+</div></div></div>
+
+<div class="qa-card">
+<div class="qa-q" onclick="cvtog(this)"><span class="ql purple">★3</span><span class="qt">给你一份工业设备传感器时序数据，让你检测异常，怎么做？（场景题示范）<span class="diff ds">必练</span></span><span class="qa">▶</span></div>
+<div class="qa-body"><div class="ac">
+"首先我需要确认几个问题：是否有标注的异常样本？异常是点异常（单点突变）还是上下文异常（正常值但在不正常时刻出现）？评估指标是什么？
+<br><br>
+<strong>有标注，监督学习方案：</strong>
+<ol>
+<li>数据处理：滑动窗口切片（窗口长度=异常持续时间），归一化到[-1,1]，对异常样本少的情况用过采样（SMOTE）——这是我在 NIPT 项目里处理类别不平衡的经验</li>
+<li>特征工程：提取时域特征（均值、方差、峰峰值）+ 频域特征（FFT）作为传统 ML 输入，或直接用原始序列输入 LSTM/Transformer</li>
+<li>模型选择：数据量小先试 XGBoost（我的竞赛经验）；数据量大且时序依赖强用 LSTM 或 Temporal Transformer；综合效果用集成方案</li>
+<li>评估：用 AUC-ROC 而不是 Accuracy（异常通常极少，类别不平衡），关注 Precision-Recall 曲线确定最优阈值</li>
+</ol>
+
+<strong>无标注，无监督方案：</strong>
+Autoencoder（重建损失高 = 异常）；Isolation Forest；One-Class SVM；或 Transformer 做 Next-Token Prediction，预测误差大的时刻为异常。
+
+<strong>可解释性：</strong>用 SHAP 分析哪些传感器特征对异常判断贡献最大，给工程师明确排查方向。这是把模型结论转化为可落地业务建议的关键一步，我在数学建模竞赛里也做过类似的工作。"
+</div></div></div>
+</div>
+
+</div><!-- content -->
+</div><!-- layout -->
+</div><!-- cv-panel -->
 
 <script>
 function tog(el){
@@ -1444,6 +2132,34 @@ function toggle(el) {
 function setActive(el) {
   document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
   el.classList.add('active');
+}
+
+function switchTab(tab) {
+  const agentPanel = document.getElementById('agent-panel');
+  const cvPanel = document.getElementById('cv-panel');
+  const tabAgent = document.getElementById('tab-agent');
+  const tabCv = document.getElementById('tab-cv');
+  if (tab === 'agent') {
+    agentPanel.style.display = '';
+    cvPanel.style.display = 'none';
+    tabAgent.className = 'tab-btn active-agent';
+    tabCv.className = 'tab-btn';
+  } else {
+    agentPanel.style.display = 'none';
+    cvPanel.style.display = '';
+    tabAgent.className = 'tab-btn';
+    tabCv.className = 'tab-btn active-cv';
+    document.getElementById('cv-tq').textContent =
+      document.querySelectorAll('#cv-panel .qa-card').length;
+  }
+}
+function cvtog(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+  const op = document.querySelectorAll('#cv-panel .qa-q.open').length;
+  const total = document.querySelectorAll('#cv-panel .qa-card').length;
+  document.getElementById('cv-oq').textContent = op;
+  document.getElementById('cv-prog').style.width = Math.round(op/total*100) + '%';
 }
 </script>
 </body>
